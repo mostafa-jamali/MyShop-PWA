@@ -14,18 +14,18 @@ function Container() {
     return (
         <div>
             <Header />
+            <Footer />
             <Suspense fallback={<h1>Loading...</h1>}>
                 <Router>
                     <Switch>
                         {
-                            routes.map((item,index) =>
+                            routes.map((item, index) =>
                                 <Route key={index} path={item.path} exact={item.exact} render={props => <item.component {...props} />} />
                             )
                         }
                     </Switch>
                 </Router>
             </Suspense>
-            <Footer />
         </div>
     )
 }

@@ -21,7 +21,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
     direction: "rtl",
@@ -36,19 +36,26 @@ const useStyles = makeStyles({
   user: {
     height: 80,
     direction: "rtl",
-    backgroundColor: "red",
+    backgroundColor: "#ee384e",
     display: "flex",
     alignItems: "center",
     justifyContent: "start",
-    padding: 15
+    padding: 15,
   },
   userButton: {
     borderRadius: 10,
     border: "2px solid #fafafa",
     color: "#fafafa",
     marginRight: 5
+  },
+  MenuIcon: {
+    color: "#fafafa",
+    fontSize: "50px",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: "25px",
+    },
   }
-});
+}));
 
 export default function SwipeableTemporaryDrawer() {
   const classes = useStyles();
@@ -111,7 +118,7 @@ export default function SwipeableTemporaryDrawer() {
     <div>
       <React.Fragment>
         <IconButton color="inherit" onClick={toggleDrawer("right", true)} >
-          <MenuIcon />
+          <MenuIcon className={classes.MenuIcon} />
         </IconButton>
         <SwipeableDrawer anchor={"right"} open={state["right"]} onClose={toggleDrawer("right", false)} onOpen={toggleDrawer("right", true)} >
           {list("right")}
