@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "10px 2px"
     },
     allGroups: {
+        marginTop: 70,
         display: "flex",
         direction: "rtl",
         overflowX: "scroll",
@@ -22,7 +23,7 @@ function ProductGroups() {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        api.get("products/categories", { per_page: 20 }).then(
+        api.get("products/categories", { per_page: 100 }).then(
             res => {
                 setCategories(res.data);
                 console.log(res.data);
@@ -33,9 +34,8 @@ function ProductGroups() {
         <div className={classes.allGroups}>
             {
                 categories.map((item) =>
-                    <Button className={classes.margin} variant="contained" color="primary" >
-                        {item.name}
-                    </Button>
+                    item.display == "default" &&
+                    <Button key={item.id} className={classes.margin} variant="contained" color="primary">{item.name}</Button>
                 )
             }
         </div>

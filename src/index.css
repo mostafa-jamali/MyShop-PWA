@@ -10,6 +10,10 @@
   font-family: yekanBakh;
   src: url(./assets/fonts/YekanBakh-Regular.ttf);
 }
+@font-face {
+  font-family: SignPainterHouse;
+  src: url(./assets/fonts/SignPainterHouseScriptRegular.ttf);
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

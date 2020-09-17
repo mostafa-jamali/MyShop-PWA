@@ -50,10 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   MenuIcon: {
     color: "#fafafa",
-    fontSize: "50px",
-    [theme.breakpoints.down('xs')]: {
-      fontSize: "25px",
-    },
+    fontSize: "25px",
   }
 }));
 

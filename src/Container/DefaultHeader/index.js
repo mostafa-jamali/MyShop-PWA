@@ -6,6 +6,9 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        position: "fixed",
+        width: "100%",
+        zIndex: 1000,
         backgroundColor: "#ee384e",
         display: "flex",
         justifyContent: "space-between",
@@ -23,13 +26,9 @@ const useStyles = makeStyles((theme) => ({
         margin: 5
     },
     digikalaText: {
-        fontSize: "35px",
+        fontSize: "25px",
         fontWeight: 700,
         marginBottom: 0,
-        [theme.breakpoints.down('xs')]: {
-            fontWeight: 600,
-            fontSize: "25px",
-        },
     }
 }))
 

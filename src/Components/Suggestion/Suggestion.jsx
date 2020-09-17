@@ -15,8 +15,12 @@ const useStyles = makeStyles((theme) => ({
         direction: "rtl",
         textAlign: "right"
     },
+    pTag: {
+        marginBottom: 0
+    },
     card: {
         minWidth: 200,
+        height: 300,
         margin: theme.spacing(1),
         padding: theme.spacing(1),
     },
@@ -27,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-between",
         marginTop: theme.spacing(1),
     },
+    CardActionAreaImage: {
+        width: "80%",
+        height: 200,
+        padding: "auto"
+    },
     cardFooter: {
     },
     allCards: {
@@ -35,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "scroll",
     },
     CardContent: {
-        padding: 0
+        padding: 0,
+        textAlign: "center"
     }
 }));
 
@@ -44,47 +54,43 @@ function Suggestion() {
     const [product, setProduct] = useState([]);
 
     useEffect(() => {
-        api.get("products").then(
+        api.get("products", { per_page: 20 }).then(
             res => {
                 setProduct(res.data);
             }
         ).catch(error => console.log(error))
     }, [])
-    
+
+    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
+
     return (
         <div className={classes.root}>
-            <div >
-                <p>پیشنهاد <span>شگفت‌انگیز</span></p>
+            <div>
+                <p className={classes.pTag}>پیشنهاد <span>شگفت‌انگیز</span></p>
             </div>
             <div className={classes.allCards}>
                 {product.map(item =>
-                    <Card key={item.id} className={classes.card} variant="outlined">
-                        <CardActionArea className={classes.CardActionArea}>
-                            <img style={{ width: "80%" }} src={item.images[0].src} />
-                            <CardContent className={classes.CardContent}>
-                                <Typography gutterBottom component="p" >
-                                    {item.name}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <Divider />
-                        <CardActions className={classes.cardFooter}>
-                            {
-                                !item.sale_price ?
-                                    <div>
-                                        <br />
-                                        {item.regular_price}
-                                    </div>
-                                    : <div>
-                                        <del>{item.regular_price}</del><br />
-                                        {item.sale_price}
-                                    </div>
-                            }
-                        </CardActions>
-                    </Card>
+                    item.on_sale ?
+                        <Card key={item.id} className={classes.card} variant="outlined" >
+                            <CardActionArea className={classes.CardActionArea}>
+                                <div className={classes.CardActionAreaImage}>
+                                    <img style={{ width: "80%" }} src={item.images[0].src} />
+                                </div>
+                                <CardContent className={classes.CardContent}>
+                                    <Typography gutterBottom component="p" >
+                                        {item.name}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <Divider />
+                            <CardActions className={classes.cardFooter}>
+                                <div dangerouslySetInnerHTML={createMarkup(item)}></div>
+                            </CardActions>
+                        </Card>
+                        : null
                 )}
             </div>
-        </div>
+        </div >
     )
 }
 
