@@ -30,10 +30,10 @@ function DefaultFooter() {
 
     return (
         <div>
-            <Grid className={classes.carousel} spacing={3}>
+            <Grid className={classes.carousel}>
                 <Hidden mdDown>
                     <Grid item >
-                        <img style={{ width: "70%" }} src={banerLeft} alt="" />
+                        <img style={{ width: "70%", marginTop: "8%"}} src={banerLeft} alt="" />
                     </Grid>
                 </Hidden>
                 <Grid item xs={12} sm={10} md={9} lg={8}>
@@ -43,7 +43,7 @@ function DefaultFooter() {
                 </Grid>
                 <Hidden mdDown>
                     <Grid item >
-                        <img style={{ width: "70%" }} src={banerRight} alt="" />
+                        <img style={{ width: "70%", marginTop: "8%" }} src={banerRight} alt="" />
                     </Grid>
                 </Hidden>
             </Grid>
