@@ -1,10 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import ProductGroups from '../../Components/ProductGroups/ProductGroups'
-import Suggestion from '../../Components/Suggestion/Suggestion'
-import Newest from '../../Components/Newest/Newest'
-import HighestScore from '../../Components/HighestScore/HighestScore';
-import MostVisited from '../../Components/MostVisited/MostVisited'
+import CardProducts from '../../Components/CardProducts/CardProducts'
+// import Newest from '../../Components/Newest/Newest'
+// import HighestScore from '../../Components/HighestScore/HighestScore';
 import CarouselComp from '../../Components/CarouselTop/CarouselTop';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -49,10 +48,9 @@ function DefaultFooter() {
             </Grid>
             <div>
                 <ProductGroups />
-                <Suggestion />
-                <Newest />
-                <HighestScore />
-                <MostVisited />
+                <CardProducts componentName={"Suggestion"} />
+                <CardProducts componentName={"Newest"} />
+                <CardProducts componentName={"HighestScore"} />
             </div>
         </div>
     )

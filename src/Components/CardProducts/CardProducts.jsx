@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { api } from "../../WooCommerceRestApi/API"
-
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
-import './Newest.css'
+import './CardProducts.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,10 +16,11 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "right"
     },
     pTag: {
-        marginBottom: 0,
+        marginBottom: 0
     },
     card: {
         minWidth: 200,
+        height: 300,
         margin: theme.spacing(1),
         padding: theme.spacing(1),
     },
@@ -31,8 +31,12 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-between",
         marginTop: theme.spacing(1),
     },
+    CardActionAreaImage: {
+        width: "80%",
+        height: 200,
+        padding: "auto"
+    },
     cardFooter: {
-        // marginBottom: 0
     },
     allCards: {
         display: "flex",
@@ -40,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "scroll",
     },
     CardContent: {
-        padding: 0
+        padding: 0,
+        textAlign: "center"
     },
     newestLabel: {
         display: "flex",
@@ -48,20 +53,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Newest() {
+function Suggestion({ componentName }) {
     const classes = useStyles();
-    const [newest, setNewest] = useState([]);
-
-    // const newestProduct = (dateProduct) => {
-    //     if (((new Date().getTime() - new Date(dateProduct.date_modified).getTime()) / 1000000) < 2500) {
-    //         return true
-    //     }
-    // }
+    const [product, setProduct] = useState([]);
+    const [runComponent, setRunComponent] = useState(componentName)
+    console.log(runComponent);
 
     useEffect(() => {
         api.get("products", { per_page: 100 }).then(
             res => {
-                setNewest(res.data);
+                setProduct(res.data);
             }
         ).catch(error => console.log(error))
     }, [])
@@ -71,15 +72,36 @@ function Newest() {
     return (
         <div className={classes.root}>
             <div className={classes.newestLabel}>
-                <p className={classes.pTag}>جدیدترین‌ها</p>
-                <a className={`${classes.pTag}`}>لیست کامل</a>
+                {runComponent === "Suggestion" &&
+                    <p className={classes.pTag}>
+                        <>پیشنهاد <span>شگفت‌انگیز</span></>
+                    </p>
+                }
+                {runComponent === "HighestScore" &&
+                    <>
+                        <p className={classes.pTag}>پرامتیازترین</p>
+                        <a className={`${classes.pTag}`}>لیست کامل</a>
+                    </>
+                }
+                {runComponent === "Newest" &&
+                    <>
+                        <p className={classes.pTag}>جدیدترین</p>
+                        <a className={`${classes.pTag}`}>لیست کامل</a>
+                    </>
+                }
+
             </div>
             <div className={classes.allCards}>
-                {newest.map(item => (
-                    (parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) &&
-                    <Card key={item.id} className={classes.card} variant="outlined">
+                {product.map(item =>
+                    ((item.on_sale && runComponent === "Suggestion")
+                        || ((item.average_rating >= 3) && runComponent === "HighestScore")
+                        || ((parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) && runComponent === "Newest"))
+                    &&
+                    <Card key={item.id} className={classes.card} variant="outlined" >
                         <CardActionArea className={classes.CardActionArea}>
-                            <img style={{ width: "80%" }} src={item.images[0].src} />
+                            <div className={classes.CardActionAreaImage}>
+                                <img style={{ width: "80%" }} src={item.images[0].src} />
+                            </div>
                             <CardContent className={classes.CardContent}>
                                 <Typography gutterBottom component="p" >
                                     {item.name}
@@ -91,12 +113,10 @@ function Newest() {
                             <div dangerouslySetInnerHTML={createMarkup(item)}></div>
                         </CardActions>
                     </Card>
-                )
                 )}
             </div>
-        </div>
+        </div >
     )
 }
 
-export default Newest
-
+export default Suggestion

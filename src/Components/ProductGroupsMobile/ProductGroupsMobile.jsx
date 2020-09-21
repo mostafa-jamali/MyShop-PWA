@@ -57,8 +57,6 @@ export default function TransitionsModal() {
                 دسته‌بندی محصولات
             </Button>
             <Modal
-                // aria-labelledby="transition-modal-title"
-                // aria-describedby="transition-modal-description"
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
