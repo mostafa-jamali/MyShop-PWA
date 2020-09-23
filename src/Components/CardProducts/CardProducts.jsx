@@ -7,7 +7,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
+// import debounce from "lodash.debounce";
+import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
+
+import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import './CardProducts.css'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         minWidth: 200,
+        maxWidth: 201,
         height: 300,
         margin: theme.spacing(1),
         padding: theme.spacing(1),
@@ -29,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        marginTop: theme.spacing(1),
+        paddingTop: theme.spacing(1),
     },
     CardActionAreaImage: {
         width: "80%",
-        height: 200,
-        padding: "auto"
+        height: 180,
+        display: "flex",
+        alignItems: "center"
     },
     cardFooter: {
     },
@@ -54,20 +61,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Suggestion({ componentName }) {
+    let history = useHistory();
+
     const classes = useStyles();
     const [product, setProduct] = useState([]);
-    const [runComponent, setRunComponent] = useState(componentName)
-    console.log(runComponent);
+    const [runComponent, setRunComponent] = useState(componentName);
+    const [pending, setPending] = useState(true);
+
+    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     useEffect(() => {
         api.get("products", { per_page: 100 }).then(
             res => {
                 setProduct(res.data);
+                setPending(false);
             }
-        ).catch(error => console.log(error))
+        )
     }, [])
-
-    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     return (
         <div className={classes.root}>
@@ -89,31 +99,37 @@ function Suggestion({ componentName }) {
                         <a className={`${classes.pTag}`}>لیست کامل</a>
                     </>
                 }
-
             </div>
             <div className={classes.allCards}>
-                {product.map(item =>
-                    ((item.on_sale && runComponent === "Suggestion")
-                        || ((item.average_rating >= 3) && runComponent === "HighestScore")
-                        || ((parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) && runComponent === "Newest"))
-                    &&
-                    <Card key={item.id} className={classes.card} variant="outlined" >
-                        <CardActionArea className={classes.CardActionArea}>
-                            <div className={classes.CardActionAreaImage}>
-                                <img style={{ width: "80%" }} src={item.images[0].src} />
-                            </div>
-                            <CardContent className={classes.CardContent}>
-                                <Typography gutterBottom component="p" >
-                                    {item.name}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <Divider />
-                        <CardActions className={classes.cardFooter}>
-                            <div dangerouslySetInnerHTML={createMarkup(item)}></div>
-                        </CardActions>
-                    </Card>
-                )}
+                {
+                    pending ?
+                        <LoadingComponent />
+                        :
+                        product.map(item =>
+                            ((item.on_sale && runComponent === "Suggestion")
+                                || ((item.average_rating >= 3) && runComponent === "HighestScore")
+                                || ((parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) && runComponent === "Newest"))
+                            &&
+                            <Card key={item.id} className={classes.card} variant="outlined" >
+                                <Router>
+                                    <CardActionArea className={classes.CardActionArea} component={Link} to={`/product${item.id}`}>
+                                        <div className={classes.CardActionAreaImage}>
+                                            <img style={{ width: "80%" }} src={item.images[0].src} />
+                                        </div>
+                                        <CardContent className={classes.CardContent}>
+                                            <Typography gutterBottom component="p" >
+                                                {item.name}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Router>
+                                <Divider />
+                                <CardActions className={classes.cardFooter}>
+                                    <div dangerouslySetInnerHTML={createMarkup(item)}></div>
+                                </CardActions>
+                            </Card>
+                        )
+                }
             </div>
         </div >
     )

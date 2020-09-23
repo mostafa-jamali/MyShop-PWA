@@ -7,6 +7,9 @@ import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import { Row } from 'reactstrap'
 
+import LoadingComponent from '../LoadingComponent/LoadingComponent'
+
+
 const useStyles = makeStyles((theme) => ({
     modal: {
         // width: "80%",
@@ -42,12 +45,12 @@ export default function TransitionsModal() {
         setOpen(false);
     };
     const [mobileCategories, setMobileCategories] = useState([])
-
+    const [pending, setPending] = useState(true)
     useEffect(() => {
         api.get("products/categories", { per_page: 100 }).then(
             res => {
                 setMobileCategories(res.data);
-                console.log(res.data);
+                setPending(false);
             }
         ).catch(error => console.log(error))
     }, [])
@@ -69,13 +72,16 @@ export default function TransitionsModal() {
                 <Fade in={open}>
                     <Row className={classes.paper} xs={1} sm={2} md={2}>
                         {
-                            mobileCategories.map((item) =>
-                                item.display === "default" &&
-                                <Button key={item.id} className={classes.buttonCateguries} variant="contained" color="primary">
-                                    <img src={item.image.src} style={{ width: "20%" }} alt="" />
-                                    <p style={{ marginBottom: 0 }}>{item.name}</p>
-                                </Button>
-                            )
+                            pending ?
+                                <LoadingComponent />
+                                :
+                                mobileCategories.map((item) =>
+                                    item.display === "default" &&
+                                    <Button key={item.id} className={classes.buttonCateguries} variant="contained" color="primary">
+                                        <img src={item.image.src} style={{ width: "20%" }} alt="" />
+                                        <p style={{ marginBottom: 0 }}>{item.name}</p>
+                                    </Button>
+                                )
                         }
                     </Row>
                 </Fade>

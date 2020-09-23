@@ -1,5 +1,5 @@
 import React from 'react';
-import DrawerRight from '../../Components/Drawer/DrawerRight'
+import DrawerRight from './Drawer/DrawerRight'
 import { makeStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search';
