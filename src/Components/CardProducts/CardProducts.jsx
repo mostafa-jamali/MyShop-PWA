@@ -7,8 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
-// import debounce from "lodash.debounce";
-import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import './CardProducts.css'
@@ -18,10 +17,27 @@ const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(2),
         direction: "rtl",
-        textAlign: "right"
+        textAlign: "right",
+        padding: "10px 30px",
+        border: "2px solid gray",
+        borderRadius: "30px",
+    },
+    NewestClass:{
+        backgroundColor: "#7944ff"
+    },
+    SuggestionClass:{
+        backgroundColor: "#4aff52"
     },
     pTag: {
         marginBottom: 0
+    },
+    aTag:{
+        color: "black",
+        marginBottom: 0,
+        "&:hover":{
+            textDecoration: "none",
+            cursor: "pointer"
+        }
     },
     card: {
         minWidth: 200,
@@ -29,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
         height: 300,
         margin: theme.spacing(1),
         padding: theme.spacing(1),
+        "&:hover":{
+            boxShadow: "0px 0px 20px 8px gray"
+        }
     },
     CardActionArea: {
         height: "80%",
@@ -38,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(1),
         "&:hover": {
             color: "black",
-            // textDcoration: "none"
+            textDecoration: "none"
         }
     },
     CardActionAreaImage: {
@@ -48,11 +67,17 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     cardFooter: {
+        fontFamily: "bYekan",
+        direction: "rtl",
+        textAlign: "left"
     },
     allCards: {
         display: "flex",
         direction: "rtl",
         overflowX: "scroll",
+        // "&::-webkit-scrollbar" :{
+        //     display: "none",
+        //   },
     },
     CardContent: {
         padding: 0,
@@ -60,12 +85,15 @@ const useStyles = makeStyles((theme) => ({
     },
     newestLabel: {
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        padding: `0px ${theme.spacing(2)}px`,
+        backgroundColor: "#f2ff8c",
+        border: "0.5px solid blue",
+        borderRadius: "15px"
     },
 }));
 
 function Suggestion({ componentName }) {
-    let history = useHistory();
 
     const classes = useStyles();
     const [product, setProduct] = useState([]);
@@ -75,7 +103,7 @@ function Suggestion({ componentName }) {
     const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     useEffect(() => {
-        api.get("products", { per_page: 100 }).then(
+        api.get("products", { per_page: 30 }).then(
             res => {
                 setProduct(res.data);
                 setPending(false);
@@ -84,23 +112,23 @@ function Suggestion({ componentName }) {
     }, [])
 
     return (
-        <div className={classes.root}>
+        <div className={`${classes.root} ${runComponent === "Newest" ? classes.NewestClass : classes.SuggestionClass}`} >
             <div className={classes.newestLabel}>
                 {runComponent === "Suggestion" &&
-                    <p className={classes.pTag}>
+                    <h5 className={classes.pTag}>
                         <>پیشنهاد <span>شگفت‌انگیز</span></>
-                    </p>
+                    </h5>
                 }
                 {runComponent === "HighestScore" &&
                     <>
-                        <p className={classes.pTag}>پرامتیازترین</p>
-                        <a className={`${classes.pTag}`}>لیست کامل</a>
+                        <h5 className={classes.pTag}>پرامتیازترین</h5>
+                        <a className={`${classes.aTag}`}>لیست کامل</a>
                     </>
                 }
                 {runComponent === "Newest" &&
                     <>
-                        <p className={classes.pTag}>جدیدترین</p>
-                        <a className={`${classes.pTag}`}>لیست کامل</a>
+                        <h5 className={classes.pTag}>جدیدترین</h5>
+                        <a className={`${classes.aTag}`}>لیست کامل</a>
                     </>
                 }
             </div>

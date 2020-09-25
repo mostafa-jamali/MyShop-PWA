@@ -71,14 +71,14 @@ export default function ScrollableTabsButtonForce() {
     };
 
     const [categPage, setCategPage] = useState([]);
-    const [categProducts, setCategProducts] = useState([]);
+    const [categProducts, setCategProducts] = useState({categories:[]});
     const [innerCategProducts, setInnerCategProducts] = useState([]);
 
     const productsOfCategoris = () => api.get("products", { per_page: 100 }).then(
         res => {
             console.log(res.data);
             setCategProducts(res.data);
-            setInnerCategProducts(res.data.categories)
+            // setInnerCategProducts(res.data.categories)
         }
     ).catch(error => console.log(error));
 
@@ -119,7 +119,7 @@ export default function ScrollableTabsButtonForce() {
             </AppBar>
             {
                 categPage.map((tabCategori, inx) =>
-                    innerCategProducts.map((catProucts) =>
+                categProducts.categories.map((catProucts) =>
                         catProucts[0].name === tabCategori &&
                         <TabPanel value={value} index={inx}>
                             {catProucts.name}{inx}

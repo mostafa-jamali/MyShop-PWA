@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 
 import { api } from "../../WooCommerceRestApi/API"
 import { Divider, Paper } from '@material-ui/core';
-import './SingleProduct.css'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#4f2e74",
@@ -51,16 +51,13 @@ function SingleProduct() {
     let { id } = useParams()
     const classes = useStyles();
 
-    const [newProduct, setNewProduct] = useState([]);
-    const [ProductImg, setProductImg] = useState([]);
-    const [productCategories, setProductCategories] = useState([]);
+    const [newProduct, setNewProduct] = useState({images:[],categories:[]});
+    
     useEffect(() => {
         api.get(`products/${id}`).then(
             res => {
                 console.log(res.data);
                 setNewProduct(res.data);
-                setProductImg(res.data.images);
-                setProductCategories(res.data.categories);
             })
     }, [])
 
@@ -71,7 +68,7 @@ function SingleProduct() {
             <div className={"col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 p-2 p-md-3 border rounded"}>
                 <Carousel autoPlay={true} infiniteLoop showArrows={true} showThumbs={false} showStatus={false}>
                     {
-                        ProductImg.map((item, index) =>
+                        newProduct.images.map((item, index) =>
                             <div key={index} className={classes.carousel}>
                                 <img className={classes.img} src={item.src} alt="" />
                             </div>
@@ -86,7 +83,7 @@ function SingleProduct() {
             <div className={`${classes.information} col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4  m-1 m-xl-5 pb-xl-3 border rounded bg-light`}>
                 <div className={"mt-3 p-0 p-sm-1"}>
                     <div className={"px-sm-1 mt-3"}>
-                        <p>{newProduct.name}</p>
+                        <h5><b>{newProduct.name}</b></h5>
                     </div>
                     <div>
                         {
@@ -120,7 +117,7 @@ function SingleProduct() {
                     </div>
                 </div>
                 <div className={"p-2"}>
-                    {productCategories.map((item, index) =>
+                    {newProduct.categories.map((item, index) =>
                         <Button key={index} variant="contained" color="primary" className={"m-2"}>{item.name}</Button>
                     )}
                 </div>
