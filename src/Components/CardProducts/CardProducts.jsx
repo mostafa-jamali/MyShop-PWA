@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         justifyContent: "space-between",
         paddingTop: theme.spacing(1),
+        "&:hover": {
+            color: "black",
+            // textDcoration: "none"
+        }
     },
     CardActionAreaImage: {
         width: "80%",
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
     CardContent: {
         padding: 0,
-        textAlign: "center"
+        textAlign: "center",
     },
     newestLabel: {
         display: "flex",
@@ -111,8 +115,7 @@ function Suggestion({ componentName }) {
                                 || ((parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) && runComponent === "Newest"))
                             &&
                             <Card key={item.id} className={classes.card} variant="outlined" >
-                                <Router>
-                                    <CardActionArea className={classes.CardActionArea} component={Link} to={`/product${item.id}`}>
+                                    <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${item.id}`}>
                                         <div className={classes.CardActionAreaImage}>
                                             <img style={{ width: "80%" }} src={item.images[0].src} />
                                         </div>
@@ -122,7 +125,6 @@ function Suggestion({ componentName }) {
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
-                                </Router>
                                 <Divider />
                                 <CardActions className={classes.cardFooter}>
                                     <div dangerouslySetInnerHTML={createMarkup(item)}></div>

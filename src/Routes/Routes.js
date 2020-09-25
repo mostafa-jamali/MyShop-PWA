@@ -1,13 +1,13 @@
 import React from 'react';
 
 
-// const Home = React.lazy(() => import('../Views/Home/Home'));
-// const Categories = React.lazy(() => import('../Views/Categories/Categories'));
+const Home = React.lazy(() => import('../Views/Home/Home'));
+const SingleP = React.lazy(() => import('../Views/SingleP/SingleP'));
 
 
 const routes= [
-    // { path: "/", exact: true, component: Home },
-    // { path: `/product:id`, exact: true, component: Categories }
+    { path: "/product/:id", exact: false, component: SingleP },
+    { path: "/", exact: true, component: Home },
 ]
 
 export default routes;

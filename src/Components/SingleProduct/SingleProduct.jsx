@@ -12,118 +12,119 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { api } from "../../WooCommerceRestApi/API"
-import { Divider } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
 
+import { api } from "../../WooCommerceRestApi/API"
+import { Divider, Paper } from '@material-ui/core';
+import './SingleProduct.css'
 const useStyles = makeStyles((theme) => ({
     root: {
-
+        backgroundColor: "#4f2e74",
+        [theme.breakpoints.up('lg')]: {
+            height: "100vh"
+        },
+    },
+    information: {
+        direction: "rtl"
+    },
+    Icons: {
+        "&:hover": {
+            cursor: "pointer",
+        }
+    },
+    carousel: {
+        backgroundColor: "white",
+    },
+    img: {
+        maxWidth: "100%",
+        maxHeight: "400px",
+    },
+    userComments: {
+        cursor: "pointer",
+        "&:hover": {
+            boxShadow: "0px 0px 20px 3px gray"
+        }
     }
 }))
 
 function SingleProduct() {
+    let { id } = useParams()
     const classes = useStyles();
 
     const [newProduct, setNewProduct] = useState([]);
     const [ProductImg, setProductImg] = useState([]);
     const [productCategories, setProductCategories] = useState([]);
-    const [relatedId, setRelatedId] = useState([])
     useEffect(() => {
-        api.get(`products/677`).then(
+        api.get(`products/${id}`).then(
             res => {
                 console.log(res.data);
                 setNewProduct(res.data);
                 setProductImg(res.data.images);
                 setProductCategories(res.data.categories);
-                setRelatedId(res.data.related_ids)
             })
     }, [])
 
     const createMarkup = (newProduct) => ({ __html: newProduct.price_html });
 
     return (
-        <div className={"col-12 col-sm-10 col-md-6 mx-auto py-sm-3 p-0"}>
-            <Carousel autoPlay infiniteLoop showArrows={false} showThumbs={false} showStatus={false}>
-                {
-                    ProductImg.map((item, index) =>
-                        <div key={index}>
-                            <img src={item.src} alt="" />
-                        </div>
-                    )
-                }
-            </Carousel>
-            <div className={"shadow p-0 p-sm-1"}>
-                <div className={"pt-sm-2"}>
-                    <Tooltip title="اشتراک گذاری">
-                        <IconButton aria-label="share">
-                            <ShareIcon color="action" />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="منتخب">
-                        <IconButton aria-label="favorite">
-                            <FavoriteIcon color="action" />
-                        </IconButton>
-                    </Tooltip>
-                </div>
-                <div>
-                    <p>{newProduct.name}</p>
-                </div>
-                <div>
+        <div className={`${classes.root} d-flex flex-column flex-xl-row justify-content-center align-items-center col-lg-12 pt-3 p-1 px-md-2 px-lg-3 py-sm-3 p-0`}>
+            <div className={"col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 p-2 p-md-3 border rounded"}>
+                <Carousel autoPlay={true} infiniteLoop showArrows={true} showThumbs={false} showStatus={false}>
                     {
-                        newProduct.on_sale &&
-                        <p>
-                            <>پیشنهاد <span>شگفت‌انگیز</span></>
-                        </p>
-                    }
-                </div>
-            </div>
-            <div className={"shadow"}>
-                <Tooltip title="نظرات کاربران">
-                    <IconButton aria-label="ChatBubble">
-                        نظرات کاربران
-                        <ChatBubbleIcon color="action" className={"mx-2"} />
-                    </IconButton>
-                </Tooltip>
-            </div>
-            <div className={"shadow py-2"}>
-                گارانتی اصالت و سلامت کالا
-                <Tooltip title="گارانتی">
-                    <IconButton aria-label="ChatBubble">
-                        <BookmarkIcon color="action" />
-                    </IconButton>
-                </Tooltip>
-                <Divider variant="middle" />
-                    فروش توسط دیجی کالا
-                <Tooltip title="digikala">
-                    <IconButton aria-label="ChatBubble">
-                        <StoreIcon color="action" />
-                    </IconButton>
-                </Tooltip>
-                <div className="mx-auto rounded">
-                    <h5><div dangerouslySetInnerHTML={createMarkup(newProduct)}></div></h5>
-                    <Button variant="contained" color="primary" >
-                        افزودن به سبد خرید
-                        <AddShoppingCartIcon color="action" className={"mx-1"} />
-                    </Button>
-                </div>
-            </div>
-            <div className={"p-2"}>
-                {productCategories.map((item, index) =>
-                    <Button key={index} variant="contained" color="primary" className={"m-2"}>{item.name}</Button>
-                )}
-            </div>
-            <div>
-                <div>محصولات مشابه</div>
-                <div>
-                    {
-                        relatedId.map((item) =>
-                            <>
-                                {item}{'    '}
-                            </>
+                        ProductImg.map((item, index) =>
+                            <div key={index} className={classes.carousel}>
+                                <img className={classes.img} src={item.src} alt="" />
+                            </div>
                         )
                     }
+                </Carousel>
+                <div className={"p-sm-2 mt-1 rounded bg-light"}>
+                    <FavoriteIcon className={`${classes.Icons} mx-2`} color="action" />
+                    <ShareIcon className={classes.Icons} color="action" />
                 </div>
-        </div>
+            </div>
+            <div className={`${classes.information} col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4  m-1 m-xl-5 pb-xl-3 border rounded bg-light`}>
+                <div className={"mt-3 p-0 p-sm-1"}>
+                    <div className={"px-sm-1 mt-3"}>
+                        <p>{newProduct.name}</p>
+                    </div>
+                    <div>
+                        {
+                            newProduct.on_sale &&
+                            <h4>پیشنهاد <span style={{ color: "red" }}>شگفت‌انگیز</span> </h4>
+                        }
+                    </div>
+                </div>
+                <Divider variant="middle" />
+                <div className={`${classes.userComments} p-3 rounded`}>
+                    <ChatBubbleIcon color="action" className={"mx-2"} />
+                            نظرات کاربران
+                </div>
+                <Divider variant="middle" />
+                <div className={"m-2"}>
+                    <BookmarkIcon color="action" />
+                    گارانتی اصالت و سلامت کالا
+                    </div>
+                <Divider variant="middle" />
+                <div className={"m-2"}>
+                    <div className={"my-3"}>
+                        <StoreIcon color="action" />
+                        فروش توسط <b>مای‌شاپ</b>
+                    </div>
+                    <div className="mx-auto rounded">
+                        <h5><b><div dangerouslySetInnerHTML={createMarkup(newProduct)} style={{ fontFamily: "bYekan", margin: "20px 0px" }}></div></b></h5>
+                        <Button variant="contained" color="primary" >
+                            <AddShoppingCartIcon color="action" className={"mx-1"} />
+                            افزودن به سبد خرید
+                        </Button>
+                    </div>
+                </div>
+                <div className={"p-2"}>
+                    {productCategories.map((item, index) =>
+                        <Button key={index} variant="contained" color="primary" className={"m-2"}>{item.name}</Button>
+                    )}
+                </div>
+            </div>
         </div >
     )
 }

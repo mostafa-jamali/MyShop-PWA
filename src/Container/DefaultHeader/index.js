@@ -42,7 +42,7 @@ function DefaultHeader() {
                 <SearchIcon className={classes.topLeft}/>
             </div>
             <div className={classes.topRight}>
-                <p className={classes.digikalaText}>digikala</p>
+                <p className={classes.digikalaText}>MyShop</p>
                 <DrawerRight />
             </div>
         </div >

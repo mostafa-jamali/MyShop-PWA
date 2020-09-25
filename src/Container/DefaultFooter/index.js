@@ -35,7 +35,7 @@ function DefaultFooter() {
                         <img style={{ width: "70%", marginTop: "0px"}} src={banerLeft} alt="" />
                     </Grid>
                 </Hidden>
-                <Grid item xs={12} sm={10} md={9} lg={8}>
+                <Grid item xs={12} sm={10} md={10} lg={8}>
                     <Paper>
                         <CarouselTop />
                     </Paper>

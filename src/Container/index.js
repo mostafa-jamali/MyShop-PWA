@@ -13,8 +13,8 @@ import routes from '../Routes/Routes';
 function Container() {
     return (
         <div>
-            <Header />
-            <Footer />
+            {/* <Header />
+            <Footer /> */}
             <Suspense fallback={<h1>Loading...</h1>}>
                 <Router>
                     <Switch>

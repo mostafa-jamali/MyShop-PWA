@@ -4,3 +4,6 @@ del{
 ins{
     text-decoration: none;
 }
+bdi{
+    direction: rtl;
+}
