@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 
 // icon
 import HomeIcon from '@material-ui/icons/Home';
@@ -58,9 +59,9 @@ export default function SwipeableTemporaryDrawer() {
   const classes = useStyles();
   const [state, setState] = React.useState({ right: false });
   const [rightMenuTop, setRightMenuTop] = React.useState([
-    { text: 'خانه', icon: <HomeIcon /> },
-    { text: 'لیست دسته‌بندی محصولات', icon: <ListIcon /> },
-    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon /> },
+    { text: 'خانه', icon: <HomeIcon /> , path:'/'},
+    { text: 'لیست دسته‌بندی محصولات', icon: <ListIcon />, path: '/categories' },
+    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon /> ,path: ''},
   ]);
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -84,7 +85,7 @@ export default function SwipeableTemporaryDrawer() {
 
       <List>
         {rightMenuTop.map((item) => (
-          <ListItem button key={item.text} className={classes.listItem}>
+          <ListItem button key={item.text} className={classes.listItem} component={Link} to={item.path}>
             <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
@@ -101,7 +102,7 @@ export default function SwipeableTemporaryDrawer() {
       <Divider />
 
       <List>
-        {['پر بازدیدترین‌ها', 'پر امتیازترین‌ها', 'جدیدترین‌ها', 'تنظیمات'].map((text, index) => (
+        {['پر امتیازترین‌ها', 'جدیدترین‌ها', 'تنظیمات'].map((text, index) => (
           <ListItem button key={text} className={classes.listItem}>
             <ListItemIcon className={classes.ListItemIcon}>{index === 3 ? <SettingsIcon /> : <StarIcon />}</ListItemIcon>
             <ListItemText primary={text} />

@@ -7,9 +7,7 @@ import CategoriesPage from './Components/CategoriesPage/CategoriesPage'
 function App() {
   return (
     <div className="App">
-      {/* <SingleProduct /> */}
       <Container />
-      {/* <CategoriesPage/> */}
     </div>
   );
 }

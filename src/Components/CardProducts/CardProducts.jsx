@@ -22,19 +22,19 @@ const useStyles = makeStyles((theme) => ({
         border: "2px solid gray",
         borderRadius: "30px",
     },
-    NewestClass:{
+    NewestClass: {
         backgroundColor: "#7944ff"
     },
-    SuggestionClass:{
+    SuggestionClass: {
         backgroundColor: "#4aff52"
     },
     pTag: {
         marginBottom: 0
     },
-    aTag:{
-        color: "black",
+    aTag: {
+        color: "blue",
         marginBottom: 0,
-        "&:hover":{
+        "&:hover": {
             textDecoration: "none",
             cursor: "pointer"
         }
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         height: 300,
         margin: theme.spacing(1),
         padding: theme.spacing(1),
-        "&:hover":{
+        "&:hover": {
             boxShadow: "0px 0px 20px 8px gray"
         }
     },
@@ -75,9 +75,13 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         direction: "rtl",
         overflowX: "scroll",
-        // "&::-webkit-scrollbar" :{
-        //     display: "none",
-        //   },
+        '&::-webkit-scrollbar': {
+            height: '0.6em'
+        },
+        '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'slategrey',
+            borderRadius: "10px",
+        }
     },
     CardContent: {
         padding: 0,
@@ -103,9 +107,10 @@ function Suggestion({ componentName }) {
     const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     useEffect(() => {
-        api.get("products", { per_page: 30 }).then(
+        api.get("products", runComponent === "Suggestion" ? { per_page: 15 } : { per_page: 100 }).then(
             res => {
                 setProduct(res.data);
+                console.log(res.data);
                 setPending(false);
             }
         )
@@ -115,9 +120,12 @@ function Suggestion({ componentName }) {
         <div className={`${classes.root} ${runComponent === "Newest" ? classes.NewestClass : classes.SuggestionClass}`} >
             <div className={classes.newestLabel}>
                 {runComponent === "Suggestion" &&
-                    <h5 className={classes.pTag}>
-                        <>پیشنهاد <span>شگفت‌انگیز</span></>
-                    </h5>
+                    <>
+                        <h5 className={classes.pTag}>
+                            <>پیشنهاد <span style={{fontFamily: "SignPainterHouse", color: "red"}}>شگفت‌انگیز</span></>
+                        </h5>
+                        <a className={`${classes.aTag}`}>لیست کامل</a>
+                    </>
                 }
                 {runComponent === "HighestScore" &&
                     <>
@@ -143,16 +151,16 @@ function Suggestion({ componentName }) {
                                 || ((parseInt(((new Date().getTime() - new Date(item.date_modified).getTime())) / 1000000) <= +20000) && runComponent === "Newest"))
                             &&
                             <Card key={item.id} className={classes.card} variant="outlined" >
-                                    <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${item.id}`}>
-                                        <div className={classes.CardActionAreaImage}>
-                                            <img style={{ width: "80%" }} src={item.images[0].src} />
-                                        </div>
-                                        <CardContent className={classes.CardContent}>
-                                            <Typography gutterBottom component="p" >
-                                                {item.name}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
+                                <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${item.id}`}>
+                                    <div className={classes.CardActionAreaImage}>
+                                        <img style={{ width: "80%" }} src={item.images[0].src} />
+                                    </div>
+                                    <CardContent className={classes.CardContent}>
+                                        <Typography gutterBottom component="p" >
+                                            {item.name}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
                                 <Divider />
                                 <CardActions className={classes.cardFooter}>
                                     <div dangerouslySetInnerHTML={createMarkup(item)}></div>

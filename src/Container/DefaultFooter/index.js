@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "20px 0px 0px 0px",
         display: "flex",
         justifyContent: "center",
-        overflowX: "hidden"
+        overflowX: "hidden",
     },
 }))
 

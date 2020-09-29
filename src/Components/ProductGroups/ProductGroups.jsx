@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
         direction: "rtl",
         background: "#24fe41", /* fallback for old browsers */
         background: "linear-gradient(to top, #24fe41, #fdfc47)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        padding: 10
+        padding: 10,
+        borderRadius: "0px 0px 20px 20px"
     }
 }));
 

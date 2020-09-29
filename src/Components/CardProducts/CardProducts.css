@@ -6,4 +6,9 @@ ins{
 }
 bdi{
     direction: rtl;
+    text-align: left;
+}
+span bdi{
+    direction: rtl;
+    text-align: left;
 }
