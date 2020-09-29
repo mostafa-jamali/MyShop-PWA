@@ -196,7 +196,6 @@ export default function ScrollableTabsButtonForce() {
 
     return (
         <div>
-
             <div className={classes.root}>
                 {
                     pending ?
