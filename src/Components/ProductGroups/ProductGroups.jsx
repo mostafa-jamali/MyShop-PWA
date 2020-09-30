@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
+import { Link } from "react-router-dom";
 
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import ProductGroupsMobile from '../ProductGroupsMobile/ProductGroupsMobile'
@@ -35,7 +36,6 @@ function ProductGroups() {
         api.get("products/categories", { per_page: 100 }).then(
             res => {
                 setCategories(res.data);
-                console.log(res.data);
                 setPending(false)
             }
         ).catch(error => console.log(error))
@@ -51,7 +51,9 @@ function ProductGroups() {
                             {
                                 categories.map((item) =>
                                     item.display === "default" &&
-                                    <Button key={item.id} className={classes.margin} variant="contained" color="primary">{item.name}</Button>
+                                    <Link key={item.id} to={`/categories/${item.id}`}>
+                                        <Button className={classes.margin} variant="contained" color="primary">{item.name}</Button>
+                                    </Link>
                                 )
                             }
                         </Grid>

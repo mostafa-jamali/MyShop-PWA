@@ -18,7 +18,7 @@ function CarouselTop() {
     const classes = useStyles();
 
     const onClickItem = () => {
-        alert("hello")
+        
     }
     return (
         <Carousel autoPlay infiniteLoop showArrows={false} showThumbs={false} showStatus={false} onClickItem={onClickItem} className={classes.root}>

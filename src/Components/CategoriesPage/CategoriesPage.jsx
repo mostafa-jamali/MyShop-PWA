@@ -19,9 +19,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import { Divider } from '@material-ui/core';
 import { Link } from "react-router-dom";
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Hidden from '@material-ui/core/Hidden';
+import { useParams } from 'react-router-dom';
 
 import { api } from '../../WooCommerceRestApi/API'
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
@@ -94,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     TabPanel: {
+        width: "100%",
         backgroundColor: "#a677c7",
         position: "absolute",
         [theme.breakpoints.down('sm')]: {
@@ -106,13 +108,19 @@ const useStyles = makeStyles((theme) => ({
             top: "90px",
         },
     },
+    allProduct: {
+        width: "100vw",
+    },
     card: {
         height: 300,
-        margin: theme.spacing(1),
         padding: theme.spacing(1),
         "&:hover": {
             boxShadow: "0px 0px 20px 8px red"
-        }
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 250
+        },
+
     },
     CardActionArea: {
         height: "80%",
@@ -126,16 +134,38 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     CardActionAreaImage: {
-        width: "70%",
+        width: "65%",
         maxHeight: 150,
+        display: "flex",
+        alignItems: "center",
+        [theme.breakpoints.down('xs')]: {
+            maxHeight: 120,
+            width: "80%",
+        },
+        [theme.breakpoints.up('xs')]: {
+            maxHeight: 120,
+            width: "70%",
+        },
     },
     cardFooter: {
         fontFamily: "bYekan",
         direction: "rtl",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "60%"
+        },
     },
     CardContent: {
         padding: 0,
         textAlign: "center",
+        direction: "rtl",
+        fontSize: "12px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "60%"
+        },
     },
     Link: {
         [theme.breakpoints.down('sm')]: {
@@ -153,42 +183,70 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ScrollableTabsButtonForce() {
+export default function CategoriesPage() {
+    let { id } = useParams()
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+
+    const convertIdToValue = (catId) => {
+        switch (catId) {
+            case 52:
+                return 0;
+            case 62:
+                return 1;
+            case 76:
+                return 2;
+            case 81:
+                return 3;
+            case 86:
+                return 4;
+            case 119:
+                return 5;
+            case 121:
+                return 6;
+            default:
+                return 0;
+        }
+    }
+    // const [allIds, setAllIds] = useState([52, 62, 76, 81, 86, 119, 121])
+    const [categPage, setCategPage] = useState([]);
+    const [categProducts, setCategProducts] = useState([]);
+    const [CategoryId, setCategoryId] = useState(52);
+    const [value, setValue] = useState(0);
+    const [pending, setPending] = useState(true);
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const [categPage, setCategPage] = useState([]);
-    const [categProducts, setCategProducts] = useState([]);
-    const [CategoryId, setCategoryId] = useState([121]);
-    const [pending, setPending] = useState(true);
+    const allCategoris = () => {
+        return new Promise((resolve, reject) => {
+            api.get(`products/categories`, { per_page: 100, orderby: "id" }).then(
+                res => {
+                    setCategPage(res.data);
+                    resolve(res.data);
+                }
+            ).catch(error => {
+                console.log(error);
+                reject(error);
+            });
+        })
+    }
 
     const productsOfCategoris = () => api.get("products", { per_page: 100, category: `${CategoryId}` }).then(
         res => {
-            console.log(res.data);
             setCategProducts(res.data);
-        }
-    ).catch(error => console.log(error));
-
-    const allCategoris = () => api.get("products/categories", { per_page: 100 }).then(
-        res => {
-            console.log(res.data);
-            setCategPage(res.data);
             setPending(false)
-            productsOfCategoris();
         }
     ).catch(error => console.log(error));
 
-    useEffect(() => {
-        productsOfCategoris()
-    }, [CategoryId]);
+    // useEffect(() => {
+    //     productsOfCategoris()
+    // }, [CategoryId]);
 
     useEffect(() => {
-        allCategoris()
-    }, [])
+        allCategoris().then(productsOfCategoris())
+    }, [CategoryId])
 
 
     const getCategoryId = (id) => { setCategoryId(id) };
@@ -196,65 +254,65 @@ export default function ScrollableTabsButtonForce() {
 
     return (
         <div>
-            <div className={classes.root}>
-                {
-                    pending ?
-                        <LoadingComponent />
-                        :
-                        <>
-                            <AppBar position="static" color="default" className={classes.AppBar} >
-                                <Hidden smUp>
-                                    <Link to="/" className={classes.Link}>دسته‌بندی محصولات<ArrowForwardIcon /></Link>
-                                </Hidden>
-                                <Tabs
-                                    value={value}
-                                    onChange={handleChange}
-                                    variant="scrollable"
-                                    scrollButtons="on"
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                    aria-label="scrollable force tabs example"
-                                >
-                                    {
-                                        categPage.map((tabCategory, idx) =>
-                                            tabCategory.display === "default" &&
-                                            <Tab key={idx} label={tabCategory.name} icon={<img src={tabCategory.image.src} className={classes.Tabs} />}
-                                                onClick={() => getCategoryId(tabCategory.id)} {...a11yProps(idx)} />
-                                        )
-                                    }
-                                </Tabs>
-                            </AppBar>
-                        </>
-                }
-                {
-                    categPage.map((tabCategory, inx) =>
-                        <TabPanel value={value} index={inx} key={inx} className={classes.TabPanel}>
-                            <Row className={"justify-content-center"} xs={1} sm={3} md={4} lg={5}>
+            {
+                pending ?
+                    <LoadingComponent />
+                    :
+                    <div className={classes.root}>
+                        <AppBar position="static" color="default" className={classes.AppBar} >
+                            <Hidden smUp>
+                                <Link to="/" className={classes.Link}>دسته‌بندی محصولات<ArrowForwardIcon /></Link>
+                            </Hidden>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                variant="scrollable"
+                                scrollButtons="on"
+                                indicatorColor="primary"
+                                textColor="primary"
+                                aria-label="scrollable force tabs example"
+                            >
                                 {
-                                    categProducts.map((catProucts) =>
-                                        catProucts.name !== "تخفیفات" &&
-                                        <Card key={catProucts.id} className={classes.card} variant="outlined" >
-                                            <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${catProucts.id}`}>
-                                                <div className={classes.CardActionAreaImage}>
-                                                    <img style={{ width: "80%" }} src={catProucts.images[0].src} />
-                                                </div>
-                                                <CardContent className={classes.CardContent}>
-                                                    <Typography gutterBottom component="p" >
-                                                        {catProucts.name}
-                                                    </Typography>
-                                                </CardContent>
-                                            </CardActionArea>
-                                            <Divider />
-                                            <CardActions className={classes.cardFooter}>
-                                                <div dangerouslySetInnerHTML={createMarkup(catProucts)}></div>
-                                            </CardActions>
-                                        </Card>
-                                    )}
-                            </Row>
-                        </TabPanel>
-                    )
-                }
-            </div>
+                                    categPage.map((tabCategory, idx) =>
+                                        tabCategory.display === "default" &&
+                                        <Tab key={idx} label={tabCategory.name} icon={<img src={tabCategory.image.src} className={classes.Tabs} />}
+                                            onClick={() => getCategoryId(tabCategory.id)} component={Link} to={`/categories/${tabCategory.id}`} {...a11yProps(idx)} />
+                                    )
+                                }
+                            </Tabs>
+                        </AppBar>
+                        <div className={classes.allProduct}>
+                            {
+                                categPage.map((tabCategory, inx) =>
+                                    <TabPanel value={value} index={inx} key={inx} className={classes.TabPanel}>
+                                        <Row className={"justify-content-center p-1"} style={{ minHeight: "80vh" }} xs={2} sm={3} md={4} lg={5} xl={6}>
+                                            {
+                                                categProducts.map((catProucts) =>
+                                                    catProucts.name !== "تخفیفات" &&
+                                                    <Col key={catProucts.id} className={"p-1"}>
+                                                        <Card className={classes.card} variant="outlined" >
+                                                            <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${catProucts.id}`}>
+                                                                <div className={classes.CardActionAreaImage}>
+                                                                    <img style={{ width: "150px" }} src={catProucts.images[0].src} />
+                                                                </div>
+                                                                <div className={classes.CardContent} component="p" >
+                                                                    {catProucts.name}
+                                                                </div>
+                                                            </CardActionArea>
+                                                            <Divider />
+                                                            <CardActions className={classes.cardFooter}>
+                                                                <div dangerouslySetInnerHTML={createMarkup(catProucts)}></div>
+                                                            </CardActions>
+                                                        </Card>
+                                                    </Col>
+                                                )}
+                                        </Row>
+                                    </TabPanel>
+                                )
+                            }
+                        </div>
+                    </div>
+            }
         </div>
     );
 }

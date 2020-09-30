@@ -6,6 +6,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import { Row } from 'reactstrap'
+import { Link } from "react-router-dom";
 
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
 
@@ -77,10 +78,12 @@ export default function TransitionsModal() {
                                 :
                                 mobileCategories.map((item) =>
                                     item.display === "default" &&
-                                    <Button key={item.id} className={classes.buttonCateguries} variant="contained" color="primary">
-                                        <img src={item.image.src} style={{ width: "20%" }} alt="" />
-                                        <p style={{ marginBottom: 0 }}>{item.name}</p>
-                                    </Button>
+                                    <Link key={item.id} to={`/categories/${item.id}`}>
+                                        <Button className={classes.buttonCateguries} variant="contained" color="primary">
+                                            <img src={item.image.src} style={{ width: "20%" }} alt="" />
+                                            <p style={{ marginBottom: 0 }}>{item.name}</p>
+                                        </Button>
+                                    </Link>
                                 )
                         }
                     </Row>
