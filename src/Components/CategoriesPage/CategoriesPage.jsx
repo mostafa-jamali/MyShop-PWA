@@ -16,7 +16,6 @@ import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import { Divider } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { Row, Col } from 'reactstrap';

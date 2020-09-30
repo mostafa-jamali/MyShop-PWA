@@ -102,7 +102,7 @@ export default function SwipeableTemporaryDrawer() {
 
       <Divider />
 
-      <ListItem button className={classes.listItem}>
+      <ListItem button className={classes.listItem} component={Link} to={"/basket"}>
         <ListItemIcon className={classes.ListItemIcon}><ShoppingCartIcon /></ListItemIcon>
         <ListItemText primary={"سبد خرید"} />
       </ListItem>

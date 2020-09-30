@@ -1,0 +1,6 @@
+
+export default {
+    ADD_BASKET: "ADD_BASKET",
+    DELETE_BASKET: "DELETE_BASKET",
+    EDIT_BASKET: "EDIT_BASKET",
+}

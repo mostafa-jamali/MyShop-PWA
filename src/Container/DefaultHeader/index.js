@@ -3,6 +3,11 @@ import DrawerRight from './Drawer/DrawerRight'
 import { makeStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search';
+import { Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
+
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,15 +20,15 @@ const useStyles = makeStyles((theme) => ({
         padding: 10,
         height: 70
     },
-    topRight:{
+    topRight: {
         display: "flex",
         alignItems: "center",
         color: "#fafafa",
     },
-    topLeft:{
+    topLeft: {
         color: "#fafafa",
         cursor: "pointer",
-        margin: 5
+        margin: 10
     },
     digikalaText: {
         fontSize: "25px",
@@ -32,14 +37,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function DefaultHeader() {
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+        right: 10,
+        top: 8,
+        border: `1px solid ${theme.palette.background.paper}`,
+        fontFamily: "bYekan",
+        backgroundColor: "blue",
+        color: "white"
+    },
+}))(Badge);
+
+function DefaultHeader({basketLength}) {
     const classes = useStyles();
 
     return (
         <div className={classes.root} >
             <div className={classes.topRight}>
-                <ShoppingCartIcon className={classes.topLeft}/>
-                <SearchIcon className={classes.topLeft}/>
+                <StyledBadge badgeContent={basketLength} color="secondary">
+                    <Link to="/basket"><ShoppingCartIcon className={classes.topLeft} /></Link>
+                </StyledBadge>
+                <SearchIcon className={classes.topLeft} />
             </div>
             <div className={classes.topRight}>
                 <p className={classes.digikalaText}>MyShop</p>
@@ -49,4 +67,9 @@ function DefaultHeader() {
     )
 }
 
-export default DefaultHeader
+const mapStateToProps = (state) => {
+    return {
+        basketLength: state.basketList.basket_list.length,
+    }
+}
+export default connect(mapStateToProps, {})(DefaultHeader);

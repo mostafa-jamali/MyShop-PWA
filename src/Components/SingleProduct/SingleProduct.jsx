@@ -17,6 +17,10 @@ import { Divider } from '@material-ui/core';
 
 import { api } from "../../WooCommerceRestApi/API"
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
+// redux
+import { connect } from 'react-redux';
+import { addBasket } from '../../Redux/Basket/Basket.action';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#4f2e74",
@@ -61,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function SingleProduct() {
+function SingleProduct({ addBasket }) {
     let { id } = useParams()
     const classes = useStyles();
 
@@ -85,8 +89,8 @@ function SingleProduct() {
             </Hidden>
             {
                 pending ?
-                <LoadingComponent/>
-                :
+                    <LoadingComponent />
+                    :
                     <div className={`${classes.root} d-flex flex-column flex-xl-row justify-content-center align-items-center col-lg-12 pt-3 p-1 px-md-2 px-lg-3 py-sm-3 p-0`}>
                         <div className={"col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 p-2 p-md-3 border rounded"}>
                             <Carousel autoPlay={true} infiniteLoop showArrows={true} showThumbs={false} showStatus={false}>
@@ -118,25 +122,25 @@ function SingleProduct() {
                             <Divider variant="middle" />
                             <div className={`${classes.userComments} p-3 rounded`}>
                                 <ChatBubbleIcon color="action" className={"mx-2"} />
-                            نظرات کاربران
-                </div>
+                                نظرات کاربران
+                            </div>
                             <Divider variant="middle" />
                             <div className={"m-2"}>
                                 <BookmarkIcon color="action" />
-                    گارانتی اصالت و سلامت کالا
-                    </div>
+                                گارانتی اصالت و سلامت کالا
+                            </div>
                             <Divider variant="middle" />
                             <div className={"m-2"}>
                                 <div className={"my-3"}>
                                     <StoreIcon color="action" />
-                        فروش توسط <b>مای‌شاپ</b>
+                                    فروش توسط <b>مای‌شاپ</b>
                                 </div>
                                 <div className="mx-auto rounded">
                                     <h5><b><div dangerouslySetInnerHTML={createMarkup(newProduct)} style={{ fontFamily: "bYekan", margin: "20px 0px" }}></div></b></h5>
-                                    <Button variant="contained" color="primary" >
+                                    <Button variant="contained" color="primary" onClick={()=>addBasket(newProduct)} >
                                         <AddShoppingCartIcon color="action" className={"mx-1"} />
-                            افزودن به سبد خرید
-                        </Button>
+                                        افزودن به سبد خرید
+                                        </Button>
                                 </div>
                             </div>
                             {/* <div className={"p-2"}>
@@ -151,4 +155,4 @@ function SingleProduct() {
     )
 }
 
-export default SingleProduct
+export default connect(null, { addBasket })(SingleProduct);

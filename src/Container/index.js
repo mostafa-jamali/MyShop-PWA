@@ -5,8 +5,6 @@ import {
     Route,
 } from "react-router-dom";
 
-import Header from './DefaultHeader';
-import Footer from './DefaultFooter';
 import routes from '../Routes/Routes';
 
 
