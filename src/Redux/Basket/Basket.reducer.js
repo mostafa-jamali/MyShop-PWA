@@ -1,15 +1,15 @@
 const initialState = {
     basket_list: [
-        // {
-        //     id: 668,
-        //     name: "شامپو مو فابریگاس مدل Pepper حجم 400 میلی لیتر",
-        //     images: [
-        //         { id: 669, src: "https://woocommerce.maktabsharif.ir/wp-content/uploads/2020/01/2901431.jpg" }
-        //     ],
-        //     on_sale: true,
-        //     regular_price: "29000",
-        //     sale_price: "18850",
-        // },
+        {
+            id: 668,
+            name: "شامپو مو فابریگاس مدل Pepper حجم 400 میلی لیتر",
+            images: [
+                { id: 669, src: "https://woocommerce.maktabsharif.ir/wp-content/uploads/2020/01/2901431.jpg" }
+            ],
+            on_sale: true,
+            regular_price: "29000",
+            sale_price: "18850",
+        },
     ]
 }
 const basketReducer = (state = initialState, action) => {

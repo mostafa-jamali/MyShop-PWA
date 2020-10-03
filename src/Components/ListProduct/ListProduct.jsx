@@ -14,8 +14,9 @@ import { api } from '../../WooCommerceRestApi/API'
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 
 const useStyles = makeStyles((theme) => ({
-    root:{
+    root: {
         backgroundColor: "#a677c7",
+        minHeight:"100vh"
     },
     row: {
         position: "relative",
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-end",
         [theme.breakpoints.down('xs')]: {
             fontSize: "60%"
         },
@@ -118,14 +119,14 @@ function ListProduct() {
     const [list, setList] = useState([]);
     const [pending, setPending] = useState(true);
     useEffect(() => {
-        api.get("products", runComponent === "Suggestion" ? { per_page: 100 } : (runComponent === "Newest" ? { per_page: 100, orderby: "date" } : { per_page: 100 })).then(
+        api.get("products", runComponent === "Suggestion" ? { per_page: 100 } : (runComponent === "Newest" ? { per_page: 20, orderby: "date" } : { per_page: 100 })).then(
             res => {
                 setList(res.data);
+                console.log(res.data);
                 setPending(false);
             }
         )
     }, [])
-    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     return (
         <div className={classes.root}>
@@ -140,7 +141,7 @@ function ListProduct() {
                     pending ?
                         <LoadingComponent />
                         :
-                        <Row className={`justify-content-center p-1 ${classes.row}`} xs={2} sm={3} md={4} lg={5} xl={6}>
+                        <Row className={`justify-content-end p-1 ${classes.row}`} xs={2} sm={3} md={4} lg={5} xl={6}>
                             {
                                 list.map((item) =>
                                     item.name !== "تخفیفات" &&
@@ -159,8 +160,18 @@ function ListProduct() {
                                                 </div>
                                             </CardActionArea>
                                             <Divider />
-                                            <CardActions >
-                                                <div className={classes.cardFooter} dangerouslySetInnerHTML={createMarkup(item)}></div>
+                                            <CardActions className={classes.cardFooter} >
+                                                {
+                                                    !item.sale_price ?
+                                                        <div>
+                                                            <br />
+                                                            {item.regular_price}تومان
+                                                    </div>
+                                                        : <div>
+                                                            <del>{item.regular_price}{" "}تومان</del><br />
+                                                            {item.sale_price}{" "}تومان
+                                                    </div>
+                                                }
                                             </CardActions>
                                         </Card>
                                     </Col>

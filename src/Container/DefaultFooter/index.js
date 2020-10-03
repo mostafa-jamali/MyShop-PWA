@@ -46,7 +46,7 @@ function DefaultFooter() {
                     </Grid>
                 </Hidden>
             </Grid>
-            <div>
+            <div className="pb-2">
                 <ProductGroups />
                 <CardProducts componentName={"Suggestion"} />
                 <CardProducts componentName={"Newest"} />

@@ -64,7 +64,7 @@ export default function SwipeableTemporaryDrawer() {
   const [rightMenuTop, setRightMenuTop] = React.useState([
     { text: 'خانه', icon: <HomeIcon /> , path:'/'},
     { text: 'لیست دسته‌بندی محصولات', icon: <ListIcon />, path: `/categories/52`},
-    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon /> ,path: ''},
+    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon /> ,path: '/favorite'},
   ]);
   const [rightMenuDown, setRightMenuDown] = React.useState([
     { text: 'تنظیمات', icon: <SettingsIcon /> , path:'/'},

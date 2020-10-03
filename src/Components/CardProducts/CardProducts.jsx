@@ -4,13 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import { Link } from "react-router-dom";
 
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
-import './CardProducts.css'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,10 +87,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     cardFooter: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-end",
         zIndex: "100",
         fontFamily: "bYekan",
         direction: "rtl",
-        textAlign: "left",
+        textAlign: "center",
         [theme.breakpoints.down('xs')]: {
             fontSize: "60%",
             zIndex: "100",
@@ -140,7 +141,6 @@ function Suggestion({ componentName }) {
     const [runComponent, setRunComponent] = useState(componentName);
     const [pending, setPending] = useState(true);
 
-    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     useEffect(() => {
         api.get("products", runComponent === "Suggestion" ? { per_page: 15 } : (runComponent === "Newest" ? { per_page: 10, orderby: "date" } : { per_page: 100 })).then(
@@ -190,15 +190,24 @@ function Suggestion({ componentName }) {
                                     <div className={classes.CardActionAreaImage}>
                                         <img style={{ width: "100%" }} src={item.images[0].src} />
                                     </div>
-                                    {/* <CardContent > */}
                                     <div className={classes.CardContent} component="p" >
                                         {item.name}
                                     </div>
-                                    {/* </CardContent> */}
                                 </CardActionArea>
                                 <Divider />
-                                <CardActions className={classes.cardFooter}>
-                                    <div dangerouslySetInnerHTML={createMarkup(item)}></div>
+                                <CardActions className={classes.cardFooter} >
+                                    {
+                                        !item.sale_price ?
+                                            <div>
+                                                <br />
+                                                {item.regular_price}تومان
+                                            </div>
+                                            :
+                                            <div>
+                                                <del>{item.regular_price}{" "}تومان</del><br />
+                                                {item.sale_price}{" "}تومان
+                                            </div>
+                                    }
                                 </CardActions>
                             </Card>
                         )

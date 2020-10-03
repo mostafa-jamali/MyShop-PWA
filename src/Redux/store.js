@@ -9,7 +9,7 @@ const middlewares = [logger];
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ["basketList"]
+    whitelist: ["basketList","favoriteList"]
 }
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)

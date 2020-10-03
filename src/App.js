@@ -5,7 +5,6 @@ import store, { persistor } from './Redux/store';
 
 import './App.css';
 import Container from './Container';
- import Basket from './Components/Basket/Basket'
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <Container />
-          {/* <Basket/> */}
         </div>
       </PersistGate>
     </Provider>

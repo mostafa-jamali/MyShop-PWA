@@ -60,6 +60,9 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        minHeight: "100vh"
+    },
+    rootTab: {
         flexGrow: 1,
         width: '100%',
         backgroundColor: theme.palette.background.paper,
@@ -95,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     },
     TabPanel: {
         width: "100%",
+        minHeight: "88%",
         backgroundColor: "#a677c7",
         position: "absolute",
         [theme.breakpoints.down('sm')]: {
@@ -152,9 +156,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-end",
         [theme.breakpoints.down('xs')]: {
-            fontSize: "60%"
+            fontSize: "60%",
         },
     },
     CardContent: {
@@ -186,8 +190,9 @@ export default function CategoriesPage() {
     let { id } = useParams()
     const classes = useStyles();
 
-    const convertIdToValue = (catId) => {
-        switch (catId) {
+    function convertIdToValue(id) {
+        const myId = parseInt(id)
+        switch (myId) {
             case 52:
                 return 0;
             case 62:
@@ -206,11 +211,13 @@ export default function CategoriesPage() {
                 return 0;
         }
     }
-    // const [allIds, setAllIds] = useState([52, 62, 76, 81, 86, 119, 121])
+
+
+    const [value, setValue] = useState(convertIdToValue(id));
+
     const [categPage, setCategPage] = useState([]);
     const [categProducts, setCategProducts] = useState([]);
-    const [CategoryId, setCategoryId] = useState(52);
-    const [value, setValue] = useState(0);
+    const [CategoryId, setCategoryId] = useState(id);
     const [pending, setPending] = useState(true);
 
 
@@ -249,15 +256,14 @@ export default function CategoriesPage() {
 
 
     const getCategoryId = (id) => { setCategoryId(id) };
-    const createMarkup = (htmlresponse) => ({ __html: htmlresponse.price_html });
 
     return (
-        <div>
+        <div className={classes.root}>
             {
                 pending ?
                     <LoadingComponent />
                     :
-                    <div className={classes.root}>
+                    <div className={classes.rootTab}>
                         <AppBar position="static" color="default" className={classes.AppBar} >
                             <Hidden smUp>
                                 <Link to="/" className={classes.Link}>دسته‌بندی محصولات<ArrowForwardIcon /></Link>
@@ -284,7 +290,7 @@ export default function CategoriesPage() {
                             {
                                 categPage.map((tabCategory, inx) =>
                                     <TabPanel value={value} index={inx} key={inx} className={classes.TabPanel}>
-                                        <Row className={"justify-content-center p-1"} style={{ minHeight: "80vh" }} xs={2} sm={3} md={4} lg={5} xl={6}>
+                                        <Row className={"justify-content-center p-1"} xs={2} sm={3} md={4} lg={5} xl={6}>
                                             {
                                                 categProducts.map((catProucts) =>
                                                     catProucts.name !== "تخفیفات" &&
@@ -299,8 +305,19 @@ export default function CategoriesPage() {
                                                                 </div>
                                                             </CardActionArea>
                                                             <Divider />
-                                                            <CardActions className={classes.cardFooter}>
-                                                                <div dangerouslySetInnerHTML={createMarkup(catProucts)}></div>
+                                                            <CardActions className={classes.cardFooter} >
+                                                                {
+                                                                    !catProucts.sale_price ?
+                                                                        <div>
+                                                                            <br />
+                                                                            {catProucts.regular_price}تومان
+                                                                        </div>
+                                                                        :
+                                                                        <div>
+                                                                            <del>{catProucts.regular_price}{" "}تومان</del><br />
+                                                                            {catProucts.sale_price}{" "}تومان
+                                                                        </div>
+                                                                }
                                                             </CardActions>
                                                         </Card>
                                                     </Col>
