@@ -14,6 +14,10 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Hidden from '@material-ui/core/Hidden';
 import { useParams } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+
+//react-share icon
+import { TelegramShareButton } from "react-share";
 
 import { api } from "../../WooCommerceRestApi/API"
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
@@ -21,13 +25,16 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux'
 import { addBasket } from '../../Redux/Basket/Basket.action';
-import { addFavorite } from '../../Redux/Favorites/Favorites.action'
-import { deleteFavorite } from '../../Redux/Favorites/Favorites.action'
+import { addFavorite, deleteFavorite } from '../../Redux/Favorites/Favorites.action'
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#4f2e74",
+        position: "relative",
+        [theme.breakpoints.down('xs')]: {
+            marginTop: "35px"
+        },
         [theme.breakpoints.up('lg')]: {
             height: "100vh"
         },
@@ -65,7 +72,13 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     Link: {
-        // position: "fixed",
+        position: "fixed",
+        zIndex: "1000",
+        top: 0,
+        "&:hover": {
+            textDecoration: "none",
+            color: "white"
+        },
         [theme.breakpoints.down('sm')]: {
             backgroundColor: "#ff1f51",
             width: "100vW",
@@ -80,7 +93,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function SingleProduct({ addBasket, addFavorite, deleteFavorite }) {
+function SingleProduct({ basketList, addBasket, addFavorite, deleteFavorite }) {
+    let history = useHistory();
 
     let { id } = useParams() //id coming from router
     const myFavorite = useSelector(state => state.favoriteList.favorite_list.find(item => item.id == id)) //myFavorite coming from redux
@@ -101,14 +115,23 @@ function SingleProduct({ addBasket, addFavorite, deleteFavorite }) {
             })
     }, [])
 
+    const handleAddBasket = (product) => {
+        const basketProduct = basketList.find(item => item.id == product.id)
+        if (!basketProduct) {
+            addBasket({ ...product, counter: 1 })
+        }
+    }
+
     return (
         <React.Fragment>
             <Hidden smUp>
-                <Link to="/" className={classes.Link}>دسته‌بندی محصولات<ArrowForwardIcon /></Link>
+                <Link to="/" className={classes.Link}>بازگشت<ArrowForwardIcon /></Link>
             </Hidden>
             {
                 pending ?
-                    <LoadingComponent />
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 40 }}>
+                        <LoadingComponent />
+                    </div>
                     :
                     <div className={`${classes.root} d-flex flex-column flex-xl-row justify-content-center align-items-center col-lg-12 pt-3 p-1 px-md-2 px-lg-3 py-sm-3 p-0`}>
                         <div className={"col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 p-2 p-md-3 border rounded"}>
@@ -124,7 +147,9 @@ function SingleProduct({ addBasket, addFavorite, deleteFavorite }) {
                             <div className={"p-sm-2 mt-1 rounded bg-light"}>
                                 <FavoriteIcon className={`${classes.FavoriteIcon} mx-2 ${myFavorite ? `${classes.FavoriteStyle}` : `${classes.unFavorite}`}`}
                                     onClick={() => changeFavorite(newProduct)} color="action" />
-                                <ShareIcon className={classes.ShareIcon} color="action" />
+                                <TelegramShareButton url={`localhost:3000/product/${newProduct.id}`} >
+                                    <ShareIcon className={classes.ShareIcon} size={25} round={true} color="action" ></ShareIcon>
+                                </TelegramShareButton>
                             </div>
                         </div>
                         <div className={`${classes.information} col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4  m-1 m-xl-5 pb-xl-3 border rounded bg-light`}>
@@ -170,7 +195,7 @@ function SingleProduct({ addBasket, addFavorite, deleteFavorite }) {
                                                 </div>
                                         }
                                     </b></h5>
-                                    <Button variant="contained" color="primary" onClick={() => addBasket({ ...newProduct, counter: 1 })} >
+                                    <Button variant="contained" color="primary" onClick={() => handleAddBasket(newProduct)} >
                                         <AddShoppingCartIcon color="action" className={"mx-1"} />
                                         افزودن به سبد خرید
                                         </Button>
@@ -182,6 +207,9 @@ function SingleProduct({ addBasket, addFavorite, deleteFavorite }) {
         </React.Fragment>
     )
 }
-
-
-export default connect(null, { addBasket, addFavorite, deleteFavorite })(SingleProduct);
+const mapStateToProps = (state) => {
+    return {
+        basketList: state.basketList.basket_list,
+    }
+}
+export default connect(mapStateToProps, { addBasket, addFavorite, deleteFavorite })(SingleProduct);

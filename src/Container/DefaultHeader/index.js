@@ -41,23 +41,27 @@ const StyledBadge = withStyles((theme) => ({
     badge: {
         right: 10,
         top: 8,
-        border: `1px solid ${theme.palette.background.paper}`,
+        border: `1px solid green`,
         fontFamily: "bYekan",
-        backgroundColor: "blue",
-        color: "white"
+        backgroundColor: "#ffffff",
+        color: "red"
     },
 }))(Badge);
 
-function DefaultHeader({basketLength}) {
+function DefaultHeader({ basketLength }) {
     const classes = useStyles();
 
     return (
         <div className={classes.root} >
             <div className={classes.topRight}>
-                <StyledBadge badgeContent={basketLength} color="secondary">
-                    <Link to="/basket"><ShoppingCartIcon className={classes.topLeft} /></Link>
+                <StyledBadge badgeContent={basketLength}>
+                    <Link to="/basket">
+                        <ShoppingCartIcon className={classes.topLeft} />
+                    </Link>
                 </StyledBadge>
-                <SearchIcon className={classes.topLeft} />
+                <Link to="/searchProduct">
+                    <SearchIcon className={classes.topLeft} />
+                </Link>
             </div>
             <div className={classes.topRight}>
                 <p className={classes.digikalaText}>MyShop</p>

@@ -217,7 +217,6 @@ export default function CategoriesPage() {
 
     const [categPage, setCategPage] = useState([]);
     const [categProducts, setCategProducts] = useState([]);
-    const [CategoryId, setCategoryId] = useState(id);
     const [pending, setPending] = useState(true);
 
 
@@ -239,23 +238,19 @@ export default function CategoriesPage() {
         })
     }
 
-    const productsOfCategoris = () => api.get("products", { per_page: 100, category: `${CategoryId}` }).then(
+    const productsOfCategoris = () => api.get("products", { per_page: 100, category: `${id}` }).then(
         res => {
             setCategProducts(res.data);
             setPending(false)
         }
     ).catch(error => console.log(error));
 
-    // useEffect(() => {
-    //     productsOfCategoris()
-    // }, [CategoryId]);
 
     useEffect(() => {
+        setValue(convertIdToValue(id))
         allCategoris().then(productsOfCategoris())
-    }, [CategoryId])
+    }, [id])
 
-
-    const getCategoryId = (id) => { setCategoryId(id) };
 
     return (
         <div className={classes.root}>
@@ -281,7 +276,7 @@ export default function CategoriesPage() {
                                     categPage.map((tabCategory, idx) =>
                                         tabCategory.display === "default" &&
                                         <Tab key={idx} label={tabCategory.name} icon={<img src={tabCategory.image.src} className={classes.Tabs} />}
-                                            onClick={() => getCategoryId(tabCategory.id)} component={Link} to={`/categories/${tabCategory.id}`} {...a11yProps(idx)} />
+                                            onClick={() => setValue(tabCategory.id)} component={Link} to={`/categories/${tabCategory.id}`} {...a11yProps(idx)} />
                                     )
                                 }
                             </Tabs>
@@ -290,7 +285,7 @@ export default function CategoriesPage() {
                             {
                                 categPage.map((tabCategory, inx) =>
                                     <TabPanel value={value} index={inx} key={inx} className={classes.TabPanel}>
-                                        <Row className={"justify-content-center p-1"} xs={2} sm={3} md={4} lg={5} xl={6}>
+                                        <Row className={"justify-content-end p-1"} xs={2} sm={3} md={4} lg={5} xl={6}>
                                             {
                                                 categProducts.map((catProucts) =>
                                                     catProucts.name !== "تخفیفات" &&

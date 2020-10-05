@@ -7,15 +7,22 @@ export const addBasket = (basket) => {
         payload: basket
     }
 }
+export const increaseItemOfBasket = (id) => {
+    return {
+        type: types.INCREASE_ITEM_BASKET,
+        payload: id
+    }
+}
+export const decreaseItemOfBasket = (id) => {
+    return {
+        type: types.DECREASE_ITEM_BASKET,
+        payload: id
+    }
+}
+
 export const deleteBasket = (id) => {
     return {
         type: types.DELETE_BASKET,
         payload: id
-    }
-}
-export const editBasket = (basket) => {
-    return {
-        type: types.EDIT_BASKET,
-        payload: basket
     }
 }

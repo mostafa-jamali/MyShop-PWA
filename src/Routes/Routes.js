@@ -7,9 +7,11 @@ const Categories = React.lazy(() => import('../Views/Categories/Categories'));
 const ListOfProduct = React.lazy(() => import('../Views/ListOfProduct/ListOfProduct'));
 const BasketPage = React.lazy(() => import('../Views/BasketPage/BasketPage'));
 const FavoritePage = React.lazy(() => import('../Views/FavoritePage/FavoritePage'));
+const SearchPage = React.lazy(() => import('../Views/SearchPage/SearchPage'));
 
 
 const routes= [
+    { path: "/searchProduct", exact: true, component: SearchPage },
     { path: "/favorite", exact: true, component: FavoritePage },
     { path: "/basket", exact: true, component: BasketPage },
     { path: "/categories/:id", exact: true, component: Categories },

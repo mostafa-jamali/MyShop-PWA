@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from 'reactstrap';
 import { connect } from 'react-redux';
 
+import { increaseItemOfBasket, decreaseItemOfBasket, deleteBasket } from '../../Redux/Basket/Basket.action'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -172,64 +173,72 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Basket({ basketList }) {
+function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, deleteBasket }) {
     const classes = useStyles();
     const createMarkup = (htmlresponse) => ({ __html: htmlresponse.description });
 
-    const [counter, setCounter] = useState({ countId: 1, count: 1 });
-    const countMinus = (id) => {
-        basketList.filter((item) => item.id == id ? setCounter([...counter, { countId: id, count: counter.count - 1 }])
-            : setCounter([...counter])
-        )
+
+    const counterPlus = (ProductId) => {
+        increaseItemOfBasket(ProductId);
     };
-    const countPlus = (id) => {
-        setCounter([...counter, { countId: id, count: counter.count + 1 }])
+    const counterMinus = (ProductId) => {
+        const basketProduct = basketList.find(item => item.id == ProductId)
+        if (basketProduct.counter > 1) {
+            decreaseItemOfBasket(ProductId);
+        } else {
+            deleteBasket(ProductId)
+        }
     };
-    const allRegularPrice = (item) => item.regular_price * counter.count
-    const allSalePrice = (item) => item.sale_price * counter.count
+
+    const allRegularPrice = (item) => item.regular_price * item.counter
+    const allSalePrice = (item) => item.sale_price * item.counter
     return (
         <div className={classes.root}>
             <h4 className={classes.h4}>محصولات موجود در سبد خرید</h4>
-            <div className={""}>
+            <div>
                 {
-                    basketList.map((catProducts, index) =>
-                        <div key={index} className={`${classes.baskets}`}>
-                            <div className={`${classes.img}`}>
-                                <Link to={`/product/${catProducts.id}`}>
-                                    <img className={"col-12"} style={{ maxHeight: "400px" }} src={catProducts.images[0].src} />
-                                </Link>
-                            </div>
-                            <div className={`${classes.info}`}>
-                                <h5 className={`${classes.h5}`}>{catProducts.name}</h5><br />
-                                <span className={classes.p}><div dangerouslySetInnerHTML={createMarkup(catProducts)}></div></span><br />
-                                <span className={classes.span}> دسته‌بندی: <b>{catProducts.categories[0].name}</b></span><br />
-                                <span className={classes.span}> امتیاز: <b>{catProducts.average_rating}/5.00</b></span><br />
-                                <span className={classes.span}>قیمت اصلی: <b>{catProducts.regular_price}</b>{" "}تومان</span><br />
-                                <span className={classes.span}>قیمت با تخفیف: {
-                                    catProducts.on_sale ?
-                                        <b>{catProducts.sale_price}{" "}تومان</b>
-                                        : "-"
-                                }</span>
-
-                                <div className={classes.count}>
-                                    <Button onClick={() => countPlus(catProducts.id)}>+</Button>
-                                    <p className={classes.countP}>{counter.count}</p>
-                                    <Button onClick={() => countMinus(catProducts.id)}>-</Button>
+                    basketList.length >= 1 ?
+                        basketList.map((item, index) =>
+                            <div key={index} className={`${classes.baskets}`}>
+                                <div className={`${classes.img}`}>
+                                    <Link to={`/product/${item.id}`}>
+                                        <img className={"col-12"} style={{ maxHeight: "400px" }} src={item.images[0].src} />
+                                    </Link>
                                 </div>
-                                <span className={classes.span}>قیمت کل سفارش:{" "}
-                                    <b>
-                                        {
-                                            !catProducts.sale_price ?
-                                                allRegularPrice(catProducts)
-                                                :
-                                                allSalePrice(catProducts)
-                                        }
-                                    </b>
-                                    {" "}تومان
+                                <div className={`${classes.info}`}>
+                                    <h5 className={`${classes.h5}`}>{item.name}</h5><br />
+                                    <span className={classes.p}><div dangerouslySetInnerHTML={createMarkup(item)}></div></span><br />
+                                    <span className={classes.span}> امتیاز: <b>{item.average_rating}/5.00</b></span><br />
+                                    <span className={classes.span}>قیمت اصلی: <b>{item.regular_price}{" "}تومان</b></span><br />
+                                    <span className={classes.span}>قیمت با تخفیف: {
+                                        item.on_sale ?
+                                            <b>{item.sale_price}{" "}تومان</b>
+                                            : "-"
+                                    }</span>
+
+                                    <div className={classes.count}>
+
+                                        <Button onClick={() => counterPlus(item.id)}>+</Button>
+                                        <p className={classes.countP}>{item.counter}</p>
+                                        <Button onClick={() => counterMinus(item.id)}>-</Button>
+                                    </div>
+                                    <span className={classes.span}>قیمت کل سفارش:{" "}
+                                        <b>
+                                            {
+                                                !item.sale_price ?
+                                                    allRegularPrice(item)
+                                                    :
+                                                    allSalePrice(item)
+                                            }
+                                        </b>
+                                        {" "}تومان
                                 </span>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )
+                        :
+                        <p>هیچ محصولی در سبد خرید وجود ندارد</p>
+                }
             </div>
         </div>
     )
@@ -240,4 +249,4 @@ const mapStateToProps = (state) => {
         basketList: state.basketList.basket_list,
     }
 }
-export default connect(mapStateToProps, {})(Basket);
+export default connect(mapStateToProps, { increaseItemOfBasket, decreaseItemOfBasket, deleteBasket })(Basket);

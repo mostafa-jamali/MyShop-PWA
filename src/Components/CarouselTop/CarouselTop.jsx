@@ -7,6 +7,7 @@ import Watch from '../../assets/images/Watch.jpg'
 import radio from '../../assets/images/radio.jpg'
 import nesquit from '../../assets/images/nesquit.jpg'
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,26 +16,36 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function CarouselTop() {
+    let history = useHistory();
     const classes = useStyles();
 
-    const onClickItem = () => {
-        
+    const handleClickTv = () => {
+        history.push("/product/667");
+    }
+    const handleClickWatch = () => {
+        history.push("/product/540");
+    }
+    const handleClickRadio = () => {
+        history.push("/product/585");
+    }
+    const handleClickNesquit = () => {
+        history.push("/product/482");
     }
     return (
-        <Carousel autoPlay infiniteLoop showArrows={false} showThumbs={false} showStatus={false} onClickItem={onClickItem} className={classes.root}>
-            <div>
+        <Carousel autoPlay infiniteLoop showArrows={false} showThumbs={false} showStatus={false} className={classes.root}>
+            <div onClick={handleClickWatch}>
                 <img src={Watch} />
                 <p className="d-none d-lg-block legend">ساعت هوشمند</p>
             </div>
-            <div>
+            <div onClick={handleClickTv}>
                 <img src={TV} />
                 <p className="d-none d-lg-block legend">تلویزیون</p>
             </div>
-            <div>
+            <div onClick={handleClickRadio}>
                 <img src={radio} />
                 <p className="d-none d-lg-block legend">رادیو</p>
             </div>
-            <div>
+            <div onClick={handleClickNesquit}>
                 <img src={nesquit} />
                 <p className="d-none d-lg-block legend">نسکوئیت</p>
             </div>
