@@ -13,15 +13,22 @@ const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(1),
         minWidth: 150,
-        padding: "10px 2px"
+        padding: "10px 2px",
+        background: "#004FF9",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        "&:hover":{
+            textDecoration:"none",
+        }
     },
     allGroups: {
         marginTop: 70,
         display: "flex",
         justifyContent: "center",
         direction: "rtl",
-        background: "#24fe41", /* fallback for old browsers */
-        background: "linear-gradient(to top, #24fe41, #fdfc47)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#5D26C1",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #fdeff9, #ec38bc, #5D26C1)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #fdeff9, #ec38bc, #5D26C1)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         padding: 10,
         borderRadius: "0px 0px 20px 20px"
     }
@@ -52,7 +59,7 @@ function ProductGroups() {
                                 categories.map((item) =>
                                     item.display === "default" &&
                                     <Link key={item.id} to={`/categories/${item.id}`}>
-                                        <Button className={classes.margin} variant="contained" color="primary">{item.name}</Button>
+                                        <Button className={classes.margin} variant="contained">{item.name}</Button>
                                     </Link>
                                 )
                             }

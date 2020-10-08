@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme) => ({
     myCarousel: {
         position: "relative",
         top: 70,
-        backgroundColor: "yellow",
+        background: "#59C173",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #5D26C1, #a17fe0, #59C173)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #5D26C1, #a17fe0, #59C173)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         margin: 0,
         padding: "20px 0px 0px 0px",
         display: "flex",
@@ -32,7 +34,7 @@ function DefaultFooter() {
             <Grid className={classes.myCarousel}>
                 <Hidden mdDown>
                     <Grid item >
-                        <img style={{ width: "70%", marginTop: "0px"}} src={banerLeft} alt="" />
+                        <img style={{ width: "70%", marginTop: "0px" }} src={banerLeft} alt="" />
                     </Grid>
                 </Hidden>
                 <Grid item xs={12} sm={10} md={10} lg={8}>

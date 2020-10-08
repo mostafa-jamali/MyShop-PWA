@@ -147,7 +147,7 @@ function SingleProduct({ basketList, addBasket, addFavorite, deleteFavorite }) {
                             <div className={"p-sm-2 mt-1 rounded bg-light"}>
                                 <FavoriteIcon className={`${classes.FavoriteIcon} mx-2 ${myFavorite ? `${classes.FavoriteStyle}` : `${classes.unFavorite}`}`}
                                     onClick={() => changeFavorite(newProduct)} color="action" />
-                                <TelegramShareButton url={`localhost:3000/product/${newProduct.id}`} >
+                                <TelegramShareButton url={`/product/${newProduct.id}`} >
                                     <ShareIcon className={classes.ShareIcon} size={25} round={true} color="action" ></ShareIcon>
                                 </TelegramShareButton>
                             </div>

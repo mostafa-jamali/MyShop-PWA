@@ -31,7 +31,26 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
+        background: "#004FF9",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        "&:hover": {
+            textDecoration: "none",
+        }
     },
+    link: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    button: {
+        background: "#004FF9",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        "&:hover": {
+            textDecoration: "none",
+        }
+    }
 }));
 
 export default function TransitionsModal() {
@@ -57,7 +76,7 @@ export default function TransitionsModal() {
     }, [])
     return (
         <div >
-            <Button variant="contained" color="primary" onClick={handleOpen}>
+            <Button variant="contained" className={classes.button} onClick={handleOpen}>
                 دسته‌بندی محصولات
             </Button>
             <Modal
@@ -78,7 +97,7 @@ export default function TransitionsModal() {
                                 :
                                 mobileCategories.map((item) =>
                                     item.display === "default" &&
-                                    <Link key={item.id} to={`/categories/${item.id}`}>
+                                    <Link key={item.id} to={`/categories/${item.id}`} className={classes.link}>
                                         <Button className={classes.buttonCateguries} variant="contained" color="primary">
                                             <img src={item.image.src} style={{ width: "20%" }} alt="" />
                                             <p style={{ marginBottom: 0 }}>{item.name}</p>

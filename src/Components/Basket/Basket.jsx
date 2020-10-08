@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from 'reactstrap';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import Hidden from '@material-ui/core/Hidden';
 import { connect } from 'react-redux';
 
 import { increaseItemOfBasket, decreaseItemOfBasket, deleteBasket } from '../../Redux/Basket/Basket.action'
@@ -12,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#f5f5f5',
         direction: "rtl",
         textAlign: "right",
-        padding: "20px 20px 100px",
+        // padding: "20px 20px 100px",
         [theme.breakpoints.down('xs')]: {
-            paddingTop: 20,
+            paddingTop: 0,
         },
     },
     baskets: {
@@ -145,7 +147,10 @@ const useStyles = makeStyles((theme) => ({
     },
     h4: {
         [theme.breakpoints.down('xs')]: {
-            fontSize: "16px"
+            // fontSize: "16px",
+            // position:"absolute",
+            // marginTop:"45px",
+            display:"none"
         },
         [theme.breakpoints.up('sm')]: {
             fontSize: "19px"
@@ -155,6 +160,22 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up('lg')]: {
             fontSize: "25px"
+        },
+    },
+    noProduct: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "14px",
+            position:"absolute",
+            marginTop:"45px",
+        },
+        [theme.breakpoints.up('sm')]: {
+            fontSize: "17px"
+        },
+        [theme.breakpoints.up('md')]: {
+            fontSize: "19px"
+        },
+        [theme.breakpoints.up('lg')]: {
+            fontSize: "22px"
         },
     },
     count: {
@@ -170,6 +191,38 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         fontFamily: "bYekan",
         fontSize: "25px"
+    },
+    Link: {
+        position: "fixed",
+        zIndex: "1000",
+        direction:"initial",
+        "&:hover": {
+            textDecoration: "none",
+            color: "white"
+        },
+        [theme.breakpoints.down('sm')]: {
+            backgroundColor: "#ff1f51",
+            width: "100vW",
+            height: "20px",
+            color: "black",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            padding: "20px",
+            color: "white"
+        },
+    },
+    pageName: {
+        marginBottom: "0px",
+        fontSize: "20px",
+        direction: "rtl",
+        textAlign: "right",
+        padding: "10px 20px 0px 0px",
+        color: "black",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "15px",
+            padding: "0px 5px",
+        },
     }
 }));
 
@@ -179,14 +232,14 @@ function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, delete
 
 
     const counterPlus = (ProductId) => {
-        increaseItemOfBasket(ProductId);
+        increaseItemOfBasket(ProductId); //increaseItemOfBasket coming from redux
     };
     const counterMinus = (ProductId) => {
-        const basketProduct = basketList.find(item => item.id == ProductId)
+        const basketProduct = basketList.find(item => item.id == ProductId)//basketList coming from redux
         if (basketProduct.counter > 1) {
-            decreaseItemOfBasket(ProductId);
+            decreaseItemOfBasket(ProductId);//decreaseItemOfBasket coming from redux
         } else {
-            deleteBasket(ProductId)
+            deleteBasket(ProductId)//deleteBasket coming from redux
         }
     };
 
@@ -194,6 +247,9 @@ function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, delete
     const allSalePrice = (item) => item.sale_price * item.counter
     return (
         <div className={classes.root}>
+            <Hidden smUp>
+                <Link to="/" className={classes.Link}><p className={classes.pageName}>سبد خرید</p><ArrowForwardIcon /></Link>
+            </Hidden>
             <h4 className={classes.h4}>محصولات موجود در سبد خرید</h4>
             <div>
                 {
@@ -237,7 +293,7 @@ function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, delete
                             </div>
                         )
                         :
-                        <p>هیچ محصولی در سبد خرید وجود ندارد</p>
+                        <p className={classes.noProduct}>هیچ محصولی در سبد خرید وجود ندارد</p>
                 }
             </div>
         </div>

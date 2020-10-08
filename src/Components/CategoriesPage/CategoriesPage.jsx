@@ -99,7 +99,9 @@ const useStyles = makeStyles((theme) => ({
     TabPanel: {
         width: "100%",
         minHeight: "88%",
-        backgroundColor: "#a677c7",
+        background: "#C6FFDD",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         position: "absolute",
         [theme.breakpoints.down('sm')]: {
             top: "100px",

@@ -15,7 +15,9 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "#a677c7",
+        background: "#C6FFDD",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         minHeight: "100vh"
     },
     row: {
@@ -144,7 +146,7 @@ function Search() {
                 </div>
             </Hidden>
             <Hidden xsDown>
-                <Form className="py-2 px-3 mx-sm-5 mx-md-5 rounded bg-success">
+                <Form className="py-2 px-3 mx-sm-5 mx-md-5 rounded">
                     <FormGroup>
                         <Input className="my-3" style={{ direction: "rtl" }} type='search' id='search' name={'search'} value={search} placeholder="جستجوی نام محصول" onChange={handleChange} />
                     </FormGroup>
@@ -153,7 +155,7 @@ function Search() {
             <div className={`justify-content-center p-3`}>
                 {
                     pending ?
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" , marginTop:20}}>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
                             <LoadingComponent />
                         </div>
                         :

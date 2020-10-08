@@ -24,13 +24,23 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     NewestClass: {
-        backgroundColor: "#7944ff"
+        background: "#70e1f5",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to bottom, #70e1f5, #ffd194)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to bottom, #70e1f5, #ffd194)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     },
     SuggestionClass: {
-        backgroundColor: "#4aff52"
+        background: "#f79d00",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to bottom, #64f38c, #f79d00)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to bottom, #64f38c, #f79d00)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     },
     pTag: {
         marginBottom: 0,
+        border: "0.3px solid gray",
+        backgroundColor: "white",
+        borderRadius: "5px",
+        padding: "0px 5px",
         [theme.breakpoints.down('xs')]: {
             fontSize: "12px",
             margin: "5px 0px"
@@ -39,9 +49,14 @@ const useStyles = makeStyles((theme) => ({
     aTag: {
         color: "blue",
         marginBottom: 0,
+        border: "0.3px solid gray",
+        backgroundColor: "white",
+        borderRadius: "5px",
+        padding: "0px 5px",
         "&:hover": {
             textDecoration: "none",
-            cursor: "pointer"
+            cursor: "pointer",
+            backgroundColor: "#EAECC6",
         },
         [theme.breakpoints.down('xs')]: {
             fontSize: "12px",
@@ -124,10 +139,6 @@ const useStyles = makeStyles((theme) => ({
     newestLabel: {
         display: "flex",
         justifyContent: "space-between",
-        padding: `0px ${theme.spacing(2)}px`,
-        backgroundColor: "#f2ff8c",
-        border: "0.5px solid blue",
-        borderRadius: "5px",
         [theme.breakpoints.down('xs')]: {
             padding: `0px ${theme.spacing(1)}px`,
         },
@@ -157,7 +168,7 @@ function Suggestion({ componentName }) {
                 {runComponent === "Suggestion" &&
                     <>
                         <h5 className={classes.pTag}>
-                            <>پیشنهاد <span style={{ fontFamily: "SignPainterHouse", color: "red" }}>شگفت‌انگیز</span></>
+                            <>پیشنهاد <span style={{ color: "red", fontWeight: 800, fontSize: 15 }}>شگفت‌انگیز</span></>
                         </h5>
                         <Link to={`/${runComponent}`} className={`${classes.aTag}`}>لیست کامل</Link>
                     </>
