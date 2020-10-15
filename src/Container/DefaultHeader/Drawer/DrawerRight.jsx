@@ -38,11 +38,14 @@ const useStyles = makeStyles((theme) => ({
   user: {
     height: 80,
     direction: "rtl",
-    backgroundColor: "#ee384e",
+    backgroundColor: "#5ebd7a",
     display: "flex",
     alignItems: "center",
     justifyContent: "start",
     padding: 15,
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor: "#ee384e",
+  },
   },
   userButton: {
     borderRadius: 10,

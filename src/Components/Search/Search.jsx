@@ -15,9 +15,7 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: "#C6FFDD",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#e4f4dc",  /* fallback for old browsers */
         minHeight: "100vh"
     },
     row: {
@@ -30,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         height: 300,
         padding: theme.spacing(1),
         "&:hover": {
-            boxShadow: "0px 0px 20px 8px red"
+            boxShadow: "0px 0px 10px 3px gray"
         },
         [theme.breakpoints.down('xs')]: {
             height: 250

@@ -28,14 +28,15 @@ const useStyles = makeStyles((theme) => ({
     buttonCateguries: {
         maxWidth: 200,
         margin: theme.spacing(1),
+        borderRadius: 40,
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
-        background: "#004FF9",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        "&:hover": {
-            textDecoration: "none",
+        background: "#3275fc",  /* fallback for old browsers */
+        "&:hover":{
+            textDecoration:"none",
+            color:"black",
+            background: "white",
         }
     },
     link: {
@@ -44,11 +45,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     button: {
-        background: "#004FF9",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        "&:hover": {
-            textDecoration: "none",
+        borderRadius: 40,
+        background: "#3275fc",  /* fallback for old browsers */
+        "&:hover":{
+            textDecoration:"none",
+            color:"black",
+            background: "white",
         }
     }
 }));

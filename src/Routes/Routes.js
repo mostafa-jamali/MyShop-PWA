@@ -8,9 +8,13 @@ const ListOfProduct = React.lazy(() => import('../Views/ListOfProduct/ListOfProd
 const BasketPage = React.lazy(() => import('../Views/BasketPage/BasketPage'));
 const FavoritePage = React.lazy(() => import('../Views/FavoritePage/FavoritePage'));
 const SearchPage = React.lazy(() => import('../Views/SearchPage/SearchPage'));
+const LoginPage = React.lazy(() => import('../Views/LoginPage/LoginPage'));
+const RegisterPage = React.lazy(() => import('../Views/RegisterPage/RegisterPage'));
 
 
 const routes= [
+    { path: "/register", exact: true, component: RegisterPage },
+    { path: "/login", exact: true, component: LoginPage },
     { path: "/searchProduct", exact: true, component: SearchPage },
     { path: "/favorite", exact: true, component: FavoritePage },
     { path: "/basket", exact: true, component: BasketPage },

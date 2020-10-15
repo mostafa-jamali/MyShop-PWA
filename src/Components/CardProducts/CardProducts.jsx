@@ -24,22 +24,20 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     NewestClass: {
-        background: "#70e1f5",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to bottom, #70e1f5, #ffd194)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to bottom, #70e1f5, #ffd194)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#8ddee2",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to bottom, #8ddee2, #d5d6b1)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to bottom, #8ddee2, #d5d6b1)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     },
     SuggestionClass: {
-        background: "#f79d00",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to bottom, #64f38c, #f79d00)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to bottom, #64f38c, #f79d00)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#d2d477",  /* fallback for old browsers */
+        background: "-webkit-linear-gradient(to bottom, #94fcad, #d2d477)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to bottom, #94fcad, #d2d477)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     },
     pTag: {
         marginBottom: 0,
-        border: "0.3px solid gray",
-        backgroundColor: "white",
-        borderRadius: "5px",
+        backgroundColor: "transparent",
         padding: "0px 5px",
         [theme.breakpoints.down('xs')]: {
             fontSize: "12px",
@@ -49,9 +47,7 @@ const useStyles = makeStyles((theme) => ({
     aTag: {
         color: "blue",
         marginBottom: 0,
-        border: "0.3px solid gray",
-        backgroundColor: "white",
-        borderRadius: "5px",
+        backgroundColor: "transparent",
         padding: "0px 5px",
         "&:hover": {
             textDecoration: "none",
@@ -70,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         padding: theme.spacing(1),
         "&:hover": {
-            boxShadow: "0px 0px 20px 8px gray"
+            boxShadow: "0px 0px 10px 3px gray"
         },
         [theme.breakpoints.down('xs')]: {
             minWidth: 120,
@@ -186,6 +182,7 @@ function Suggestion({ componentName }) {
                     </>
                 }
             </div>
+            <Divider className={"mb-3 mt-2"}/>
             <div className={classes.allCards}>
                 {
                     pending ?

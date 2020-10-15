@@ -15,10 +15,8 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: "#C6FFDD",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        minHeight:"100vh"
+        background: "#e4f4dc",  /* fallback for old browsers */
+        minHeight: "100vh"
     },
     row: {
         position: "relative",
@@ -30,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         height: 300,
         padding: theme.spacing(1),
         "&:hover": {
-            boxShadow: "0px 0px 20px 8px red"
+            boxShadow: "0px 0px 10px 3px gray"
         },
         [theme.breakpoints.down('xs')]: {
             height: 250
@@ -84,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
     Link: {
         position: "fixed",
         zIndex: "1000",
+        top: 0,
         "&:hover": {
             textDecoration: "none",
             color: "white"
@@ -138,6 +137,9 @@ function ListProduct() {
             <Hidden xsDown>
                 <p className={classes.pageName}>{runComponent === "Suggestion" ? "پیشنهاد شگفت‌انگیز" : (runComponent === "Newest" ? ("جدیدترین") : ("پرامتیازترین"))}</p>
             </Hidden>
+            <div className="px-3">
+                <Divider className="mt-2" />
+            </div>
             <div className={`justify-content-center p-3`}>
                 {
                     pending ?

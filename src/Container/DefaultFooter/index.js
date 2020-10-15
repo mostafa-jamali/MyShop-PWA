@@ -9,21 +9,26 @@ import Hidden from '@material-ui/core/Hidden';
 
 import banerLeft from '../../assets/images/baner1.png'
 import banerRight from '../../assets/images/baner2.png';
-import SingleProduct from '../../Components/SingleProduct/SingleProduct';
 
 const useStyles = makeStyles((theme) => ({
     myCarousel: {
         position: "relative",
         top: 70,
         background: "#59C173",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #5D26C1, #a17fe0, #59C173)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #5D26C1, #a17fe0, #59C173)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "-webkit-linear-gradient(to top, #7e51d0, #a17fe0, #59C173)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to top, #7e51d0, #a17fe0, #59C173)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         margin: 0,
         padding: "20px 0px 0px 0px",
         display: "flex",
         justifyContent: "center",
         overflowX: "hidden",
     },
+    products:{
+        paddingBottom: 6,
+        background: "#d8eaf8",
+        background: "-webkit-linear-gradient(to top, #9fdae0, #d8eaf8)",
+        background: "linear-gradient(to top, #9fdae0, #d8eaf8)", 
+    }
 }))
 
 function DefaultFooter() {
@@ -48,7 +53,7 @@ function DefaultFooter() {
                     </Grid>
                 </Hidden>
             </Grid>
-            <div className="pb-2">
+            <div className={`${classes.products}`}>
                 <ProductGroups />
                 <CardProducts componentName={"Suggestion"} />
                 <CardProducts componentName={"Newest"} />

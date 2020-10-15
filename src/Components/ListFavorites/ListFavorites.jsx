@@ -13,11 +13,9 @@ import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        direction:"rtl",
-        background: "#C6FFDD",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        minHeight: "100vh"
+        direction: "rtl",
+        background: "#e4f4dc",  /* fallback for old browsers */
+        minHeight: "100vh",
     },
     row: {
         position: "relative",
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         height: 300,
         padding: theme.spacing(1),
         "&:hover": {
-            boxShadow: "0px 0px 20px 8px red"
+            boxShadow: "0px 0px 10px 3px gray"
         },
         [theme.breakpoints.down('xs')]: {
             height: 250
@@ -82,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     },
     Link: {
         position: "fixed",
-        direction:"rtl",
+        direction: "rtl",
         zIndex: "1000",
         "&:hover": {
             textDecoration: "none",
@@ -94,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
             height: "20px",
             color: "black",
             display: "flex",
-            direction:"ltr",
+            direction: "ltr",
             alignItems: "center",
             justifyContent: "flex-end",
             padding: "20px",
@@ -134,46 +132,51 @@ function ListFavorites({ favoriteList }) {
             <Hidden smUp>
                 <Link to="/" className={classes.Link}><p className={classes.pageName}>محصولات موردعلاقه</p><ArrowForwardIcon /></Link>
             </Hidden>
-            <Hidden xsDown>
-                <p className={classes.pageName}>محصولات موردعلاقه</p>
-            </Hidden>
-            {
-                favoriteList.length >= 1 ?
-                    <div className={`justify-content-center p-3`}>
-                        <Row className={`justify-content-end p-1 ${classes.row}`} xs={2} sm={3} md={4} lg={5} xl={6}>
-                            {
-                                favoriteList.map((item) =>
-                                    <Col key={item.id} className={"p-1"}>
-                                        <Card className={classes.card} variant="outlined" >
-                                            <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${item.id}`}>
-                                                <div className={classes.CardActionAreaImage}>
-                                                    <img style={{ width: "100%" }} src={item.images[0].src} />
-                                                </div>
-                                                <div className={classes.CardContent} component="p" >
-                                                    {item.name}
-                                                </div>
-                                            </CardActionArea>
-                                            <Divider />
-                                            <CardActions className={classes.cardFooter} >
-                                                {
-                                                    !item.sale_price ?
-                                                        <div>
-                                                            <br />
-                                                            {item.regular_price}تومان
+            <div className="p-1 p-lg-4 pxl-5">
+                <Hidden xsDown>
+                    <p className={classes.pageName}>کالاهای موردعلاقه</p>
+                </Hidden>
+                <div className="my-2 px-3">
+                    <Divider />
+                </div>
+                {
+                    favoriteList.length >= 1 ?
+                        <div className={`justify-content-center p-3`}>
+                            <Row className={`justify-content-start p-1 ${classes.row}`} xs={2} sm={3} md={4} lg={5} xl={6}>
+                                {
+                                    favoriteList.map((item) =>
+                                        <Col key={item.id} className={"p-1"}>
+                                            <Card className={classes.card} variant="outlined" >
+                                                <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${item.id}`}>
+                                                    <div className={classes.CardActionAreaImage}>
+                                                        <img style={{ width: "100%" }} src={item.images[0].src} />
                                                     </div>
-                                                        : <div>
-                                                            <del>{item.regular_price}{" "}تومان</del><br />
-                                                            {item.sale_price}{" "}تومان
+                                                    <div className={classes.CardContent} component="p" >
+                                                        {item.name}
                                                     </div>
-                                                }
-                                            </CardActions>
-                                        </Card>
-                                    </Col>
-                                )}
-                        </Row>
-                    </div>
-                    : <p className={classes.noProduct}>هیچ محصولی در بخش موردعلاقه وجود ندارد</p>
-            }
+                                                </CardActionArea>
+                                                <Divider />
+                                                <CardActions className={classes.cardFooter} >
+                                                    {
+                                                        !item.sale_price ?
+                                                            <div>
+                                                                <br />
+                                                                {item.regular_price}تومان
+                                                    </div>
+                                                            : <div>
+                                                                <del>{item.regular_price}{" "}تومان</del><br />
+                                                                {item.sale_price}{" "}تومان
+                                                    </div>
+                                                    }
+                                                </CardActions>
+                                            </Card>
+                                        </Col>
+                                    )}
+                            </Row>
+                        </div>
+                        : <p className={classes.noProduct}>هیچ محصولی در بخش موردعلاقه وجود ندارد</p>
+                }
+            </div>
         </div>
     )
 }

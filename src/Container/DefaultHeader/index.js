@@ -14,11 +14,15 @@ const useStyles = makeStyles((theme) => ({
         position: "fixed",
         width: "100%",
         zIndex: 1000,
-        backgroundColor: "#ee384e",
+        backgroundColor: "#5ebd7a",
         display: "flex",
         justifyContent: "space-between",
         padding: 10,
-        height: 70
+        height: 70,
+        borderBottom: "0.1px solid #acb6c1",
+        [theme.breakpoints.down('xs')]: {
+            backgroundColor: "#ee384e",
+        },
     },
     topRight: {
         display: "flex",

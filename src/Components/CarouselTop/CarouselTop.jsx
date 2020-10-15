@@ -32,22 +32,22 @@ function CarouselTop() {
         history.push("/product/482");
     }
     return (
-        <Carousel autoPlay infiniteLoop showArrows={false} showThumbs={false} showStatus={false} className={classes.root}>
+        <Carousel autoPlay infiniteLoop showArrows={true} showThumbs={false} showStatus={false} className={classes.root}>
             <div onClick={handleClickWatch}>
                 <img src={Watch} />
-                <p className="d-none d-lg-block legend">ساعت هوشمند</p>
+                {/* <p className="d-none d-lg-block legend">ساعت هوشمند</p> */}
             </div>
             <div onClick={handleClickTv}>
                 <img src={TV} />
-                <p className="d-none d-lg-block legend">تلویزیون</p>
+                {/* <p className="d-none d-lg-block legend">تلویزیون</p> */}
             </div>
             <div onClick={handleClickRadio}>
                 <img src={radio} />
-                <p className="d-none d-lg-block legend">رادیو</p>
+                {/* <p className="d-none d-lg-block legend">رادیو</p> */}
             </div>
             <div onClick={handleClickNesquit}>
                 <img src={nesquit} />
-                <p className="d-none d-lg-block legend">نسکوئیت</p>
+                {/* <p className="d-none d-lg-block legend">نسکوئیت</p> */}
             </div>
         </Carousel>
     );

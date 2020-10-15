@@ -9,7 +9,8 @@ const initialState = {
         //     on_sale: true,
         //     regular_price: "29000",
         //     sale_price: "18850",
-        //     counter: 1
+        //     counter: 1,
+        //     modalOpen:false
         // },
     ]
 }

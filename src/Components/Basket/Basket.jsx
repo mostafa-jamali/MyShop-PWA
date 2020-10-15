@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, ButtonGroup } from 'reactstrap';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Hidden from '@material-ui/core/Hidden';
+import { Divider } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+
 import { connect } from 'react-redux';
 
 import { increaseItemOfBasket, decreaseItemOfBasket, deleteBasket } from '../../Redux/Basket/Basket.action'
@@ -43,6 +49,39 @@ const useStyles = makeStyles((theme) => ({
             margin: "10px 0px"
         },
     },
+    allPage: {
+        // position: "fixed",
+    },
+    contain: {
+        disply: "flex",
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: "column"
+        },
+        [theme.breakpoints.up('sm')]: {
+            flexDirection: "column"
+        },
+        [theme.breakpoints.up('md')]: {
+            flexDirection: "column"
+        },
+        [theme.breakpoints.up('lg')]: {
+            display: "flex",
+            flexDirection: "row"
+        },
+    },
+    rightSide: {
+        [theme.breakpoints.down('xs')]: {
+            width: "100%"
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "100%"
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "100%"
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "70%"
+        },
+    },
     img: {
         backgroundColor: "white",
         height: 300,
@@ -61,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
             borderRadius: "10px 10px 0px 0px",
         },
         [theme.breakpoints.up('md')]: {
-            width: "50%",
+            width: "30%",
             height: "auto",
             padding: 10,
             margin: 0,
@@ -70,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
             borderRadius: "0px 10px 10px 0px",
         },
         [theme.breakpoints.up('lg')]: {
-            width: "40%",
+            width: "30%",
             height: "auto",
             padding: 10,
             margin: 0,
@@ -81,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
     },
     info: {
         backgroundColor: "white",
+        color: "#757272",
         height: 300,
         fontFamily: "yekan",
         direction: "rtl",
@@ -93,30 +133,30 @@ const useStyles = makeStyles((theme) => ({
             width: "100%",
             height: "auto",
             padding: 5,
-            margin: "5px 0px",
+            margin: "1px 0px",
             borderRadius: "0px 0px 10px 10px",
         },
         [theme.breakpoints.up('sm')]: {
             width: "100%",
             height: "auto",
             padding: 10,
-            margin: "5px 0px 0px 0px",
+            margin: "1px 0px 0px 0px",
             borderRadius: "0px 0px 10px 10px",
         },
         [theme.breakpoints.up('md')]: {
-            width: "50%",
+            width: "70%",
             height: "auto",
             padding: 10,
-            margin: "0px 5px 0px 0px",
+            margin: "0px 1px 0px 0px",
             display: "flex",
             alignItems: "center",
             borderRadius: "10px 0px 0px 10px",
         },
         [theme.breakpoints.up('lg')]: {
-            width: "60%",
+            width: "70%",
             height: "auto",
             padding: 10,
-            margin: "0px 5px 0px 0px",
+            margin: "0px 1px 0px 0px",
             display: "flex",
             alignItems: "center",
             borderRadius: "10px 0px 0px 10px",
@@ -125,13 +165,19 @@ const useStyles = makeStyles((theme) => ({
     span: {
         fontFamily: "bYekan"
     },
+    allPrice: {
+        color: "#383737",
+        fontFamily: "bYekan"
+    },
     p: {
-        fontFamily: "yekan",
+        fontFamily: "bYekan",
         lineHeight: "20px",
         margin: 0,
         direction: "rtl"
     },
     h5: {
+        fontFamily:"bYekan",
+        color: "#383737",
         [theme.breakpoints.down('xs')]: {
             fontSize: "16px"
         },
@@ -150,7 +196,7 @@ const useStyles = makeStyles((theme) => ({
             // fontSize: "16px",
             // position:"absolute",
             // marginTop:"45px",
-            display:"none"
+            display: "none"
         },
         [theme.breakpoints.up('sm')]: {
             fontSize: "19px"
@@ -165,8 +211,8 @@ const useStyles = makeStyles((theme) => ({
     noProduct: {
         [theme.breakpoints.down('xs')]: {
             fontSize: "14px",
-            position:"absolute",
-            marginTop:"45px",
+            position: "absolute",
+            marginTop: "45px",
         },
         [theme.breakpoints.up('sm')]: {
             fontSize: "17px"
@@ -180,22 +226,39 @@ const useStyles = makeStyles((theme) => ({
     },
     count: {
         display: "flex",
-        backgroundColor: "yellow",
-        margin: "10px"
+        border: "1px solid #e0dbdb",
+        margin: "10px",
+        borderRadius: 10,
+        color: "black !important",
+    },
+    buttonCount: {
+        width: 33,
+        height: 33,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        fontSize: 20,
+        "&:hover": {
+            fontSize: 25,
+        }
     },
     countP: {
-        width: "50px",
+        width: "30px",
+        color: "#02aaff",
         marginBottom: "0px",
+        borderRight: "1px solid #e0dbdb",
+        borderLeft: "1px solid #e0dbdb",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         fontFamily: "bYekan",
-        fontSize: "25px"
+        fontSize: "22px"
     },
     Link: {
         position: "fixed",
         zIndex: "1000",
-        direction:"initial",
+        direction: "initial",
         "&:hover": {
             textDecoration: "none",
             color: "white"
@@ -223,14 +286,60 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "15px",
             padding: "0px 5px",
         },
-    }
+    },
+    infoAllProducts: {
+        height: 330,
+        border: "2px solid white",
+        borderRadius: 10,
+        backgroundColor: "white",
+        padding: 10,
+        [theme.breakpoints.down('xs')]: {
+            width: "100%"
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "60%"
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "50%"
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "30%"
+        },
+    },
+    payButton: {
+        width: "60%"
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: "yekan"
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        direction: "rtl",
+        display: 'flex',
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 }));
 
 function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, deleteBasket }) {
     const classes = useStyles();
     const createMarkup = (htmlresponse) => ({ __html: htmlresponse.description });
 
-
+    const discountPercent = (item) => {
+        if (item.on_sale) {
+            return Math.round((item.regular_price - item.sale_price) * 100 / item.regular_price)
+        } else {
+            return 0
+        }
+    }
+    const [motori, setMotori] = useState(15000);
     const counterPlus = (ProductId) => {
         increaseItemOfBasket(ProductId); //increaseItemOfBasket coming from redux
     };
@@ -243,58 +352,115 @@ function Basket({ basketList, increaseItemOfBasket, decreaseItemOfBasket, delete
         }
     };
 
-    const allRegularPrice = (item) => item.regular_price * item.counter
-    const allSalePrice = (item) => item.sale_price * item.counter
+
+    const priceProduct = (item) => {
+        if (item.on_sale) {
+            return item.sale_price * item.counter
+        } else {
+            return item.regular_price * item.counter
+        }
+    }
+    const pricePay = () => {
+        return basketList.reduce((sum, item) =>
+            priceProduct(item) + sum, 0) + motori
+    }
+
+    // for modal pricePay
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <div className={classes.root}>
             <Hidden smUp>
                 <Link to="/" className={classes.Link}><p className={classes.pageName}>سبد خرید</p><ArrowForwardIcon /></Link>
             </Hidden>
-            <h4 className={classes.h4}>محصولات موجود در سبد خرید</h4>
-            <div>
-                {
-                    basketList.length >= 1 ?
-                        basketList.map((item, index) =>
-                            <div key={index} className={`${classes.baskets}`}>
-                                <div className={`${classes.img}`}>
-                                    <Link to={`/product/${item.id}`}>
-                                        <img className={"col-12"} style={{ maxHeight: "400px" }} src={item.images[0].src} />
-                                    </Link>
-                                </div>
-                                <div className={`${classes.info}`}>
-                                    <h5 className={`${classes.h5}`}>{item.name}</h5><br />
-                                    <span className={classes.p}><div dangerouslySetInnerHTML={createMarkup(item)}></div></span><br />
-                                    <span className={classes.span}> امتیاز: <b>{item.average_rating}/5.00</b></span><br />
-                                    <span className={classes.span}>قیمت اصلی: <b>{item.regular_price}{" "}تومان</b></span><br />
-                                    <span className={classes.span}>قیمت با تخفیف: {
-                                        item.on_sale ?
-                                            <b>{item.sale_price}{" "}تومان</b>
-                                            : "-"
-                                    }</span>
+            <div className={`p-1 pt-4 p-sm-3 p-md-3 pt-md-4 p-lg-5 ${classes.allPage}`}>
+                <h4 className={classes.h4}>سبد خرید</h4>
+                <Divider className={`mb-4`} />
+                <div className={`${classes.contain}`}>
+                    <div className={`${classes.rightSide}`}>
+                        {
+                            basketList.length >= 1 ?
+                                basketList.map((item, index) =>
+                                    <div key={index} className={`${classes.baskets}`}>
+                                        <div className={`${classes.img}`}>
+                                            <Link to={`/product/${item.id}`}>
+                                                <img className={"col-12"} style={{ maxHeight: "400px" }} src={item.images[0].src} />
+                                            </Link>
+                                        </div>
+                                        <div className={`${classes.info}`}>
+                                            <h5 className={`${classes.h5}`}>{item.name}</h5><br />
+                                            <span className={classes.p}><div dangerouslySetInnerHTML={createMarkup(item)}></div></span><br />
+                                            <span className={classes.span}> امتیاز: <b>{item.average_rating}/5.00</b></span><br />
+                                            <span className={classes.span}>قیمت اصلی: <b>{item.regular_price}{" "}تومان</b></span><br />
+                                            <span className={classes.span}> درصد تخفیف: <b>{discountPercent(item)}{" "}%</b></span><br />
+                                            <span className={classes.span}>قیمت با تخفیف: {
+                                                item.on_sale ?
+                                                    <b>{item.sale_price}{" "}تومان</b>
+                                                    : "-"
+                                            }</span>
 
-                                    <div className={classes.count}>
-
-                                        <Button onClick={() => counterPlus(item.id)}>+</Button>
-                                        <p className={classes.countP}>{item.counter}</p>
-                                        <Button onClick={() => counterMinus(item.id)}>-</Button>
+                                            <div className={classes.count}>
+                                                <div className={classes.buttonCount} onClick={() => counterPlus(item.id)}>+</div>
+                                                <p className={classes.countP}>{item.counter}</p>
+                                                <div className={classes.buttonCount} onClick={() => counterMinus(item.id)}>-</div>
+                                            </div>
+                                            <span className={classes.allPrice}>قیمت کل سفارش:{" "}
+                                                <b style={{ color: "#02aaff" }}>
+                                                    {priceProduct(item)}
+                                                </b>
+                                                {" "}تومان
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className={classes.span}>قیمت کل سفارش:{" "}
-                                        <b>
-                                            {
-                                                !item.sale_price ?
-                                                    allRegularPrice(item)
-                                                    :
-                                                    allSalePrice(item)
-                                            }
-                                        </b>
-                                        {" "}تومان
-                                </span>
-                                </div>
-                            </div>
-                        )
-                        :
-                        <p className={classes.noProduct}>هیچ محصولی در سبد خرید وجود ندارد</p>
-                }
+                                )
+                                :
+                                <p className={classes.noProduct}>هیچ محصولی در سبد خرید وجود ندارد</p>
+                        }
+                    </div>
+                    <div className={`m-xl-2 ${classes.infoAllProducts}`}>
+                        <h3 className={"mb-4"}>اطلاعات خرید {""}</h3>
+                        <p style={{ fontFamily: "bYekan" }}>تعداد کالاها: <span style={{ fontSize: "25px", color: "#02aaff" }}>{basketList.length}</span></p>
+                        <Divider className={"my-3"} />
+                        <p style={{ fontFamily: "bYekan" }}>هزینه پیک موتوری : {motori} تومان</p>
+                        <Divider className={"my-3"} />
+                        <p>مبلغ قابل پرداخت : <span style={{ fontFamily: "bYekan", color: "#02aaff", fontSize: "25px" }}>{pricePay()}</span> تومان</p>
+                        <Divider className={"my-3"} />
+                        <div className={`d-flex justify-content-center`}>
+                            <Button variant="contained" color="secondary" className={classes.payButton} onClick={handleOpen}> پرداخت</Button>
+                            {/* modal for pricePay*/}
+                            <Modal
+                                aria-labelledby="transition-modal-title"
+                                aria-describedby="transition-modal-description"
+                                className={classes.modal}
+                                open={open}
+                                onClose={handleClose}
+                                closeAfterTransition
+                                BackdropComponent={Backdrop}
+                                BackdropProps={{
+                                    timeout: 500,
+                                }}
+                            >
+                                <Fade in={open}>
+                                    <div className={classes.paper}>
+                                        <div>
+                                            <SentimentVeryDissatisfiedIcon fontSize="large" style={{ marginBottom: "25px" }} />
+                                            <SentimentVeryDissatisfiedIcon fontSize="large" style={{ marginBottom: "25px" }} />
+                                            <SentimentVeryDissatisfiedIcon fontSize="large" style={{ marginBottom: "25px" }} />
+                                        </div>
+                                        <p id="transition-modal-description">متأسفانه در حال حاضر این قابلیت در دسترس نمیباشد.</p>
+                                    </div>
+                                </Fade>
+                            </Modal>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

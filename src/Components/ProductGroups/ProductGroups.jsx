@@ -14,11 +14,13 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 150,
         padding: "10px 2px",
-        background: "#004FF9",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #FFF94C, #004FF9)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #FFF94C, #004FF9)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color:"white",
+        borderRadius:40,
+        background: "#3275fc",  /* fallback for old browsers */
         "&:hover":{
             textDecoration:"none",
+            color:"black",
+            background: "white",
         }
     },
     allGroups: {
@@ -26,11 +28,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         direction: "rtl",
-        background: "#5D26C1",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #fdeff9, #ec38bc, #5D26C1)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #fdeff9, #ec38bc, #5D26C1)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#7e51d0",  /* fallback for old browsers */
         padding: 10,
-        borderRadius: "0px 0px 20px 20px"
+        // borderRadius: "0px 0px 20px 20px"
     }
 }));
 

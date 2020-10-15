@@ -14,7 +14,6 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Hidden from '@material-ui/core/Hidden';
 import { useParams } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
 
 //react-share icon
 import { TelegramShareButton } from "react-share";
@@ -30,17 +29,32 @@ import { addFavorite, deleteFavorite } from '../../Redux/Favorites/Favorites.act
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "#4f2e74",
+        background: "#e4f4dc", 
         position: "relative",
+        display: "flex",
+        alignItems: "center",
         [theme.breakpoints.down('xs')]: {
-            marginTop: "35px"
+            marginTop: 35,
+            paddingBottom: 20
         },
         [theme.breakpoints.up('lg')]: {
             height: "100vh"
         },
     },
     information: {
-        direction: "rtl"
+        direction: "rtl",
+        [theme.breakpoints.down('xs')]: {
+            width: "90%",
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "50%",
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "40%",
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "40%",
+        },
     },
     FavoriteIcon: {
         "&:hover": {
@@ -60,10 +74,25 @@ const useStyles = makeStyles((theme) => ({
     },
     carousel: {
         backgroundColor: "white",
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+            height: "auto",
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "100%",
+            height: "auto",
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "100%",
+            height: "auto",        },
+        [theme.breakpoints.up('lg')]: {
+            width: "100%",
+            height: 350,
+        },
     },
     img: {
-        maxWidth: "100%",
-        maxHeight: "400px",
+        width: "auto",
+        maxHeight: 330,
     },
     userComments: {
         cursor: "pointer",
@@ -90,11 +119,24 @@ const useStyles = makeStyles((theme) => ({
             padding: "20px",
             color: "white",
         },
+    },
+    carouselSide: {
+        [theme.breakpoints.down('xs')]: {
+            width: "90%",
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "50%",
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "40%",
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "40%",
+        },
     }
 }))
 
 function SingleProduct({ basketList, addBasket, addFavorite, deleteFavorite }) {
-    let history = useHistory();
 
     let { id } = useParams() //id coming from router
     const myFavorite = useSelector(state => state.favoriteList.favorite_list.find(item => item.id == id)) //myFavorite coming from redux
@@ -118,7 +160,7 @@ function SingleProduct({ basketList, addBasket, addFavorite, deleteFavorite }) {
     const handleAddBasket = (product) => {
         const basketProduct = basketList.find(item => item.id == product.id)
         if (!basketProduct) {
-            addBasket({ ...product, counter: 1 })
+            addBasket({ ...product, counter: 1, modalOpen: false })
         }
     }
 
@@ -133,75 +175,78 @@ function SingleProduct({ basketList, addBasket, addFavorite, deleteFavorite }) {
                         <LoadingComponent />
                     </div>
                     :
-                    <div className={`${classes.root} d-flex flex-column flex-xl-row justify-content-center align-items-center col-lg-12 pt-3 p-1 px-md-2 px-lg-3 py-sm-3 p-0`}>
-                        <div className={"col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 p-2 p-md-3 border rounded"}>
-                            <Carousel autoPlay={true} infiniteLoop showArrows={true} showThumbs={false} showStatus={false}>
-                                {
-                                    newProduct.images.map((item, index) =>
-                                        <div key={index} className={classes.carousel}>
-                                            <img className={classes.img} src={item.src} alt="" />
-                                        </div>
-                                    )
-                                }
-                            </Carousel>
-                            <div className={"p-sm-2 mt-1 rounded bg-light"}>
-                                <FavoriteIcon className={`${classes.FavoriteIcon} mx-2 ${myFavorite ? `${classes.FavoriteStyle}` : `${classes.unFavorite}`}`}
-                                    onClick={() => changeFavorite(newProduct)} color="action" />
-                                <TelegramShareButton url={`/product/${newProduct.id}`} >
-                                    <ShareIcon className={classes.ShareIcon} size={25} round={true} color="action" ></ShareIcon>
-                                </TelegramShareButton>
-                            </div>
-                        </div>
-                        <div className={`${classes.information} col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4  m-1 m-xl-5 pb-xl-3 border rounded bg-light`}>
-                            <div className={"mt-3 p-0 p-sm-1"}>
-                                <div className={"px-sm-1 mt-3"}>
-                                    <h5><b>{newProduct.name}</b></h5>
-                                </div>
-                                <div>
+                    <div className={`${classes.root}`}>
+                        <div className={`d-flex flex-column flex-xl-row justify-content-center align-items-center col-lg-12 pt-3 p-1 px-md-2 px-lg-3 py-sm-3 p-0`} >
+                            <div className={`${classes.carouselSide} border rounded`}>
+                                <Carousel className={classes.carousel} autoPlay={true} infiniteLoop showArrows={true} showThumbs={false} showStatus={false}>
                                     {
-                                        newProduct.on_sale &&
-                                        <h4>پیشنهاد <span style={{ color: "red" }}>شگفت‌انگیز</span> </h4>
+                                        newProduct.images.map((item, index) =>
+                                            <div key={index}>
+                                                <img className={classes.img} src={item.src} alt="" />
+                                            </div>
+                                        )
                                     }
+                                </Carousel>
+                                <div className={"p-sm-2 rounded bg-light"} style={{height:"40px"}}>
+                                    <FavoriteIcon className={`${classes.FavoriteIcon} mx-2 ${myFavorite ? `${classes.FavoriteStyle}` : `${classes.unFavorite}`}`}
+                                        onClick={() => changeFavorite(newProduct)} color="action" />
+                                    <TelegramShareButton url={`${window.location.origin}${window.location.pathname}`} >
+                                        <ShareIcon className={classes.ShareIcon} size={25} round={true} color="action" ></ShareIcon>
+                                    </TelegramShareButton>
                                 </div>
                             </div>
-                            <Divider variant="middle" />
-                            <div className={`${classes.userComments} p-3 rounded`}>
-                                <ChatBubbleIcon color="action" className={"mx-2"} />
+                            <div className={`${classes.information} border rounded bg-light`}>
+                                <div className={"mt-3 p-0 p-sm-1"}>
+                                    <div className={"px-sm-1 mt-3"}>
+                                        <h5><b>{newProduct.name}</b></h5>
+                                    </div>
+                                    <div>
+                                        {
+                                            newProduct.on_sale &&
+                                            <h4>پیشنهاد <span style={{ color: "red" }}>شگفت‌انگیز</span> </h4>
+                                        }
+                                    </div>
+                                </div>
+                                <Divider variant="middle" />
+                                <div className={`${classes.userComments} p-3 rounded`}>
+                                    <ChatBubbleIcon color="action" className={"mx-2"} />
                                 نظرات کاربران
                             </div>
-                            <Divider variant="middle" />
-                            <div className={"m-2"}>
-                                <BookmarkIcon color="action" />
+                                <Divider variant="middle" />
+                                <div className={"m-2"}>
+                                    <BookmarkIcon color="action" />
                                 گارانتی اصالت و سلامت کالا
                             </div>
-                            <Divider variant="middle" />
-                            <div className={"m-2"}>
-                                <div className={"my-3"}>
-                                    <StoreIcon color="action" />
+                                <Divider variant="middle" />
+                                <div className={"m-2"}>
+                                    <div className={"my-3"}>
+                                        <StoreIcon color="action" />
                                     فروش توسط <b>مای‌شاپ</b>
-                                </div>
-                                <div className="mx-auto rounded">
-                                    <h5><b>
-                                        {
-                                            !newProduct.sale_price ?
-                                                <div style={{ fontFamily: "bYekan", margin: "20px 0px" }}>
-                                                    <br />
-                                                    {newProduct.regular_price}تومان
+                                    </div>
+                                    <div className="mx-auto rounded">
+                                        <h5><b>
+                                            {
+                                                !newProduct.sale_price ?
+                                                    <div style={{ fontFamily: "bYekan", margin: "20px 0px" }}>
+                                                        <br />
+                                                        {newProduct.regular_price}تومان
                                                 </div>
-                                                :
-                                                <div style={{ fontFamily: "bYekan", margin: "20px 0px" }}>
-                                                    <del>{newProduct.regular_price}{" "}تومان</del><br />
-                                                    {newProduct.sale_price}{" "}تومان
+                                                    :
+                                                    <div style={{ fontFamily: "bYekan", margin: "20px 0px" }}>
+                                                        <del>{newProduct.regular_price}{" "}تومان</del><br />
+                                                        {newProduct.sale_price}{" "}تومان
                                                 </div>
-                                        }
-                                    </b></h5>
-                                    <Button variant="contained" color="primary" onClick={() => handleAddBasket(newProduct)} >
-                                        <AddShoppingCartIcon color="action" className={"mx-1"} />
+                                            }
+                                        </b></h5>
+                                        <Button variant="contained" color="primary" onClick={() => handleAddBasket(newProduct)} >
+                                            <AddShoppingCartIcon color="action" className={"mx-1"} />
                                         افزودن به سبد خرید
                                         </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div >
             }
         </React.Fragment>

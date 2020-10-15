@@ -99,9 +99,7 @@ const useStyles = makeStyles((theme) => ({
     TabPanel: {
         width: "100%",
         minHeight: "88%",
-        background: "#C6FFDD",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to top, #f7797d, #FBD786, #C6FFDD)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "#defcea",  /* fallback for old browsers */
         position: "absolute",
         [theme.breakpoints.down('sm')]: {
             top: "100px",
@@ -116,11 +114,16 @@ const useStyles = makeStyles((theme) => ({
     allProduct: {
         width: "100vw",
     },
+    cardsCol: {
+        '@media(maxWidth: 450px)': {
+            width: 250
+        }
+    },
     card: {
         height: 300,
         padding: theme.spacing(1),
         "&:hover": {
-            boxShadow: "0px 0px 20px 8px red"
+            boxShadow: "0px 0px 10px 3px gray"
         },
         [theme.breakpoints.down('xs')]: {
             height: 250
@@ -291,11 +294,11 @@ export default function CategoriesPage() {
                                             {
                                                 categProducts.map((catProucts) =>
                                                     catProucts.name !== "تخفیفات" &&
-                                                    <Col key={catProucts.id} className={"p-1"}>
+                                                    <Col key={catProucts.id} className={`p-1 ${classes.cardsCol}`}>
                                                         <Card className={classes.card} variant="outlined" >
                                                             <CardActionArea className={classes.CardActionArea} component={Link} to={`/product/${catProucts.id}`}>
                                                                 <div className={classes.CardActionAreaImage}>
-                                                                    <img style={{ width: "150px" }} src={catProucts.images[0].src} />
+                                                                    <img style={{ width: "100%" }} src={catProucts.images[0].src} />
                                                                 </div>
                                                                 <div className={classes.CardContent} component="p" >
                                                                     {catProucts.name}
