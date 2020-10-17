@@ -11,9 +11,12 @@
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "customize-cra": "^1.0.0",
     "debounce": "^1.2.0",
     "lodash.debounce": "^4.0.8",
     "react": "^16.13.1",
+    "react-app-rewire-workbox": "^2.0.1",
+    "react-app-rewired": "^2.1.6",
     "react-dom": "^16.13.1",
     "react-owl-carousel2": "^0.3.0",
     "react-persian": "^1.1.1",
@@ -26,7 +29,8 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
