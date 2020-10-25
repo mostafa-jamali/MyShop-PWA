@@ -1,14 +1,52 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'reactstrap';
+import { makeStyles } from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
 
 import { connect, useSelector } from 'react-redux';
 
-import FormInput from '../FormInput/FormInput';
+import MyFormInput from '../FormInput/FormInput';
 import { userLogin } from '../../../Redux/auth/auth.thunk';
 
-function Login({userLogin}) {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingTop: 20,
+        [theme.breakpoints.down('xs')]: {
+            padding: "10px 5px",
+        },
+    },
+    form: {
+        textAlign: "right",
+        direction: "rtl",
+        border:"1.5px solid gray",
+        padding: 10,
+        borderRadius:10,
+        [theme.breakpoints.down('xs')]: {
+            width: "90%"
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: "50%",
+            margin: 50,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "30%",
+            margin: 50,
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "25%",
+            margin: 50,
+        },
+    },
+}))
+
+
+function Login({ userLogin }) {
     // const myUser = useSelector(state => state.auth.token)
     // console.log(myUser);
+    const classes = useStyles();
 
     const errors = useSelector(state => state.auth.errors)
     const [userData, setUserDate] = useState({})
@@ -22,18 +60,16 @@ function Login({userLogin}) {
         userLogin(userData)
     }
     return (
-        <div className="col-12 d-flex justify-content-center">
-            <Form onSubmit={handleSubmit} className="col-8" style={{textAlign:"left"}}>
-                <h1 className={'my-4'}>Sign In</h1>
+        <div className={classes.root}>
+            <Form onSubmit={handleSubmit} className={classes.form}>
+                <h1 className={'my-4'}>ورود</h1>
                 {errors && errors.message ?
                     <Alert color="danger">{errors.message}</Alert> : null
                 }
-                <FormInput id='username' value={userData.username} onChange={handleChange} />
-                <FormInput id='email' value={userData.email} placeholder="email" onChange={handleChange} />
-                <FormInput type={'password'} id='password' value={userData.password} onChange={handleChange} />
-                <Button type='submit'>Login</Button>{' '}
-                <Button type='reset'>Clear</Button> {' '}
-                <Button>I don't hanve an account</Button>
+                <MyFormInput id='نام کاربری' value={userData.username} placeholder="نام کاربری خود را وارد کنید" onChange={handleChange} />
+                <MyFormInput id='ایمیل' value={userData.email} type="email" placeholder="ایمیل خود را وارد کنید" onChange={handleChange} />
+                <Button type='submit' color="primary" >ورود</Button>{' '}
+                <Link to="/register"><Button type='button'>ثبت نام</Button></Link>
             </Form>
         </div>
     )

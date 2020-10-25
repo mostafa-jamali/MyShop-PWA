@@ -45,13 +45,21 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
     [theme.breakpoints.down('xs')]: {
       backgroundColor: "#ee384e",
-  },
+    },
   },
   userButton: {
     borderRadius: 10,
     border: "2px solid #fafafa",
     color: "#fafafa",
-    marginRight: 5
+    marginRight: 5,
+    "&:hover": {
+      backgroundColor: "#04f749",
+    },
+    [theme.breakpoints.down('xs')]: {
+      "&:hover": {
+        backgroundColor: "#ff001d",
+      }
+    },
   },
   MenuIcon: {
     color: "#fafafa",
@@ -65,14 +73,14 @@ export default function SwipeableTemporaryDrawer() {
   const classes = useStyles();
   const [state, setState] = React.useState({ right: false });
   const [rightMenuTop, setRightMenuTop] = React.useState([
-    { text: 'خانه', icon: <HomeIcon /> , path:'/'},
-    { text: 'لیست دسته‌بندی محصولات', icon: <ListIcon />, path: `/categories/52`},
-    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon /> ,path: '/favorite'},
+    { text: 'خانه', icon: <HomeIcon />, path: '/' },
+    { text: 'لیست دسته‌بندی محصولات', icon: <ListIcon />, path: `/categories/52` },
+    { text: 'لیست محصولات مورد علاقه', icon: <FavoriteIcon />, path: '/favorite' },
   ]);
   const [rightMenuDown, setRightMenuDown] = React.useState([
-    { text: 'تنظیمات', icon: <SettingsIcon /> , path:'/'},
-    { text: 'جدیدترین‌ها', icon: <StarIcon />, path: `/Newest`},
-    { text: 'پرامتیازترین', icon: <StarIcon /> ,path: '/HighestScore'},
+    { text: 'تنظیمات', icon: <SettingsIcon />, path: '/' },
+    { text: 'جدیدترین‌ها', icon: <StarIcon />, path: `/Newest` },
+    { text: 'پرامتیازترین', icon: <StarIcon />, path: '/HighestScore' },
   ]);
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -91,7 +99,7 @@ export default function SwipeableTemporaryDrawer() {
     >
       <div className={classes.user}>
         <PersonIcon fontSize="large" style={{ color: "#fafafa" }} />
-        <Button variant="outlined" className={classes.userButton}>ورود و ثبت نام</Button>
+        <Link to={"/login"} ><Button variant="outlined" className={classes.userButton}>ورود و ثبت نام</Button></Link>
       </div>
 
       <List>
